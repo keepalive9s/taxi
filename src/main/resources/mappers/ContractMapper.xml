@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.haue.taxi.mapper.ContractMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.haue.taxi.entity.Contract">
+    <id column="taxi_id" jdbcType="INTEGER" property="taxiId" />
+    <id column="driver_id" jdbcType="CHAR" property="driverId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="deposit" jdbcType="INTEGER" property="deposit" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from contract
+    where taxi_id = #{taxiId,jdbcType=INTEGER}
+      and driver_id = #{driverId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Contract">
+    insert into contract (taxi_id, driver_id, create_time, 
+      end_time, deposit)
+    values (#{taxiId,jdbcType=INTEGER}, #{driverId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{deposit,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Contract">
+    update contract
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      deposit = #{deposit,jdbcType=INTEGER}
+    where taxi_id = #{taxiId,jdbcType=INTEGER}
+      and driver_id = #{driverId,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select taxi_id, driver_id, create_time, end_time, deposit
+    from contract
+    where taxi_id = #{taxiId,jdbcType=INTEGER}
+      and driver_id = #{driverId,jdbcType=CHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select taxi_id, driver_id, create_time, end_time, deposit
+    from contract
+  </select>
+</mapper>

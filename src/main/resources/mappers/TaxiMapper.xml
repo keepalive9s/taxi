@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.haue.taxi.mapper.TaxiMapper">
+    <resultMap id="BaseResultMap" type="cn.edu.haue.taxi.entity.Taxi">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="plate_num" jdbcType="CHAR" property="plateNum"/>
+        <result column="brand" jdbcType="VARCHAR" property="brand"/>
+        <result column="model" jdbcType="VARCHAR" property="model"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="driver_id" jdbcType="CHAR" property="driverId"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from taxi
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Taxi">
+    insert into taxi (plate_num, brand, model)
+    values (#{plateNum,jdbcType=CHAR}, #{brand,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Taxi">
+    update taxi
+    set plate_num = #{plateNum,jdbcType=CHAR},
+      brand = #{brand,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, plate_num, brand, model, create_time
+    from taxi
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, plate_num, brand, model, taxi.create_time, driver_id
+    from taxi left join contract on taxi.id = contract.taxi_id
+  </select>
+</mapper>

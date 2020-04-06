@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.haue.taxi.mapper.PunishMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.haue.taxi.entity.Punish">
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="admin" jdbcType="VARCHAR" property="admin" />
+    <result column="driver_id" jdbcType="CHAR" property="driverId" />
+    <result column="taxi_id" jdbcType="INTEGER" property="taxiId" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="cost" jdbcType="INTEGER" property="cost" />
+    <result column="from" jdbcType="VARCHAR" property="from" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from punish
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Punish">
+    insert into punish (id, admin, driver_id, 
+      taxi_id, reason, cost, 
+      from, type, time, 
+      location)
+    values (#{id,jdbcType=CHAR}, #{admin,jdbcType=VARCHAR}, #{driverId,jdbcType=CHAR}, 
+      #{taxiId,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, #{cost,jdbcType=INTEGER}, 
+      #{from,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
+      #{location,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Punish">
+    update punish
+    set admin = #{admin,jdbcType=VARCHAR},
+      driver_id = #{driverId,jdbcType=CHAR},
+      taxi_id = #{taxiId,jdbcType=INTEGER},
+      reason = #{reason,jdbcType=VARCHAR},
+      cost = #{cost,jdbcType=INTEGER},
+      from = #{from,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      location = #{location,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, admin, driver_id, taxi_id, reason, cost, from, type, time, location
+    from punish
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, admin, driver_id, taxi_id, reason, cost, from, type, time, location
+    from punish
+  </select>
+</mapper>

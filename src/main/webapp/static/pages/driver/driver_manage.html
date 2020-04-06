@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layuiAdmin 网站用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../style/admin.css" media="all">
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-admin" data-type="add">添加新驾驶员</button>
+            </div>
+            <table id="driver-manage-table" lay-filter="driver-manage-table"></table>
+            <script type="text/html" id="driver_action_bar">
+                <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+<script src="../../layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '../../' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table', 'util'], function () {
+        var $ = layui.$,
+            admin = layui.admin
+            , form = layui.form
+            , localData = layui.data(layui.setter.tableName)
+            , util = layui.util
+            , table = layui.table;
+        table.render({
+            elem: '#driver-manage-table',
+            url: localData.contextPath + '/api/driver',
+            page: true,
+            cols: [[
+                {field: 'id', title: '驾驶员编号', sort: true, fixed: 'left'},
+                {field: 'name', title: '姓名'},
+                {field: 'gender', title: '性别'},
+                {field: 'age', title: '年龄'},
+                {field: 'phone', title: '手机'},
+                {field: 'licenseNum', title: '从业资格证号'},
+                {
+                    title: '状态', templet: function (d) {
+                        if (d.taxiId === null) {
+                            return '未签约';
+                        } else {
+                            return '已签约';
+                        }
+                    }
+                },
+                {title: "操作", width: 200, align: "center", fixed: "right", toolbar: "#driver_action_bar"}
+            ]]
+        });
+        table.on("tool(driver-manage-table)", function (e) {
+            if (e.event === "del") {
+                layer.confirm("确定要删除？", function (t) {
+                    admin.req({
+                        url: localData.contextPath + '/api/driver/' + e.data.id,
+                        method: 'delete',
+                        done: function (res) {
+                            layer.msg(res.resultMessage, {
+                                offset: '15px'
+                                , icon: res.icon
+                                , time: 1000
+                            }, function () {
+                                if (res.resultCode === 1) {
+                                    e.del();
+                                }
+                            });
+                        }
+                    });
+                    layer.close(t);
+                })
+            } else if (e.event === "edit") {
+                layer.open({
+                    type: 2
+                    , title: '修改驾驶员信息'
+                    , content: 'driver_edit_form.html'
+                    , area: ['550px', '450px']
+                    , btn: ['确定', '取消']
+                    , yes: function (index, layero) {
+                        var iframeWindow = window['layui-layer-iframe' + index]
+                            , submitID = 'driver_update_submit'
+                            , submit = layero.find('iframe').contents().find('#' + submitID);
+                        //监听提交
+                        iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
+                            var field = data.field; //获取提交的字段
+                            if (field.workTimeSet === null || field.workTimeSet === '') {
+                                delete field.workTimeSet;
+                            }
+                            admin.req({
+                                url: localData.contextPath + '/api/driver'
+                                , method: 'put'
+                                , data: JSON.stringify(field)
+                                , contentType: "application/json"
+                                , done: function (res) {
+                                    layer.msg(res.resultMessage, {
+                                        offset: '15px'
+                                        , icon: res.icon
+                                        , time: 1000
+                                    }, function () {
+                                        if (res.resultCode === 1) {
+                                            table.reload('driver-manage-table');
+                                        }
+                                    });
+                                }
+                            });
+                            layer.close(index); //关闭弹层
+                        });
+                        submit.trigger('click');
+                    }
+                    , success: function (layero, index) {
+                        var iframeWin = window[layero.find('iframe')[0]['name']];
+                        iframeWin.init(e.data.id);
+                    }
+                });
+            }
+        });
+        var active = {
+            add: function () {
+                layer.open({
+                    type: 2
+                    , title: '添加新驾驶员'
+                    , content: 'driver_add_form.html'
+                    , area: ['500px', '450px']
+                    , btn: ['确定', '取消']
+                    , yes: function (index, layero) {
+                        var iframeWindow = window['layui-layer-iframe' + index]
+                            , submitID = 'driver_create_submit'
+                            , submit = layero.find('iframe').contents().find('#' + submitID);
+
+                        //监听提交
+                        iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
+                            var field = data.field; //获取提交的字段
+                            if (field.workTimeSet === null || field.workTimeSet === '') {
+                                delete field.workTimeSet;
+                            }
+                            admin.req({
+                                url: localData.contextPath + '/api/driver'
+                                , method: 'post'
+                                , data: field
+                                , done: function (res) {
+                                    layer.msg(res.resultMessage, {
+                                        offset: '15px'
+                                        , icon: res.icon
+                                        , time: 1000
+                                    }, function () {
+                                        if (res.resultCode === 1) {
+                                            table.reload('driver-manage-table');
+                                        }
+                                    });
+                                }
+                            });
+                            layer.close(index); //关闭弹层
+                        });
+                        submit.trigger('click');
+                    }
+                });
+            }
+        };
+        $('.layui-btn.layuiadmin-btn-admin').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+</html>

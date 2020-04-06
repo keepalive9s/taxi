@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.haue.taxi.mapper.DriverMapper">
+    <resultMap id="BaseResultMap" type="cn.edu.haue.taxi.entity.Driver">
+        <id column="id" jdbcType="CHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="gender" jdbcType="CHAR" property="gender"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="phone" jdbcType="CHAR" property="phone"/>
+        <result column="license_num" jdbcType="CHAR" property="licenseNum"/>
+        <result column="identity_num" jdbcType="CHAR" property="identityNum"/>
+        <result column="plate_num" jdbcType="CHAR" property="plateNum"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from driver
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+    <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Driver">
+    insert into driver (id, name, gender, password, phone, license_num, identity_num)
+    values (#{id,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, #{password,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=CHAR}, #{licenseNum,jdbcType=CHAR}, #{identityNum,jdbcType=CHAR})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Driver">
+        update driver
+        <set>
+            <if test="name!=null">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="gender!=null">gender = #{gender,jdbcType=CHAR},</if>
+            <if test="password!=null">password = #{password,jdbcType=VARCHAR},</if>
+            <if test="phone!=null">phone = #{phone,jdbcType=CHAR},</if>
+            <if test="licenseNum!=null">license_num = #{licenseNum,jdbcType=CHAR},</if>
+            <if test="identityNum!=null">identity_num = #{identityNum,jdbcType=CHAR},</if>
+        </set>
+        where id = #{id,jdbcType=CHAR}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, name, gender, password, phone, license_num, identity_num
+    from driver
+    where id = #{id,jdbcType=CHAR}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, gender, password, phone, license_num, identity_num, taxi_id
+    from driver left join contract on driver.id = contract.driver_id
+  </select>
+</mapper>
