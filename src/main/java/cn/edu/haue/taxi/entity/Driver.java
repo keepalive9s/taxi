@@ -2,6 +2,8 @@ package cn.edu.haue.taxi.entity;
 
 import cn.edu.haue.taxi.util.IDUtil;
 
+import java.util.Date;
+
 public class Driver {
     private String id;
 
@@ -9,19 +11,21 @@ public class Driver {
 
     private String gender;
 
-    private Integer age;
-
     private String password;
 
     private String phone;
 
     private String licenseNum;
 
-    private String identityNum;
+    private String drivingLicenseNum;
+
+    private String drivingLicenseClass;
 
     private Integer taxiId;
 
-    private String plateNum;
+    private Date endTime;
+
+    private Integer age;
 
     public String getId() {
         return id;
@@ -45,10 +49,6 @@ public class Driver {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public Integer getAge() {
-        return IDUtil.getAgeByIDNumber(this.identityNum);
     }
 
     public String getPassword() {
@@ -75,12 +75,20 @@ public class Driver {
         this.licenseNum = licenseNum;
     }
 
-    public String getIdentityNum() {
-        return identityNum;
+    public String getDrivingLicenseNum() {
+        return drivingLicenseNum;
     }
 
-    public void setIdentityNum(String identityNum) {
-        this.identityNum = identityNum;
+    public void setDrivingLicenseNum(String drivingLicenseNum) {
+        this.drivingLicenseNum = drivingLicenseNum;
+    }
+
+    public String getDrivingLicenseClass() {
+        return drivingLicenseClass;
+    }
+
+    public void setDrivingLicenseClass(String drivingLicenseClass) {
+        this.drivingLicenseClass = drivingLicenseClass;
     }
 
     public Integer getTaxiId() {
@@ -91,27 +99,19 @@ public class Driver {
         this.taxiId = taxiId;
     }
 
-    public String getPlateNum() {
-        return plateNum;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setPlateNum(String plateNum) {
-        this.plateNum = plateNum;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
-    @Override
-    public String toString() {
-        return "Driver{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", gender='" + gender + '\'' +
-                ", age=" + age +
-                ", password='" + password + '\'' +
-                ", phone='" + phone + '\'' +
-                ", licenseNum='" + licenseNum + '\'' +
-                ", identityNum='" + identityNum + '\'' +
-                ", taxiId=" + taxiId +
-                ", plateNum='" + plateNum + '\'' +
-                '}';
+    public Integer getAge() {
+        return IDUtil.getAgeByIDNumber(this.drivingLicenseNum);
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 }

@@ -1,8 +1,6 @@
 package cn.edu.haue.taxi.mapper;
 
 import cn.edu.haue.taxi.entity.Driver;
-import org.springframework.dao.DataAccessException;
-
 import java.util.List;
 
 public interface DriverMapper {
@@ -14,5 +12,5 @@ public interface DriverMapper {
 
     List<Driver> selectAll();
 
-    int updateByPrimaryKey(Driver record) throws DataAccessException;
+    int updateByPrimaryKey(Driver record);
 }

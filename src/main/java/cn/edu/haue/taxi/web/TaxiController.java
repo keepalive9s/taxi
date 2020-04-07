@@ -21,6 +21,11 @@ public class TaxiController {
         return taxiService.listAll(pageNum, pageSize);
     }
 
+    @GetMapping("{id}")
+    public ResponseData<Taxi> taxi(@PathVariable("id") Integer id) {
+        return taxiService.findById(id);
+    }
+
     @PostMapping
     public ResponseInfo create(Taxi taxi) {
         return taxiService.create(taxi);
@@ -29,5 +34,11 @@ public class TaxiController {
     @DeleteMapping("{id}")
     public ResponseInfo delete(@PathVariable("id") Integer id) {
         return taxiService.deleteById(id);
+    }
+
+    @PutMapping
+    public ResponseInfo update(@RequestBody Taxi taxi) {
+
+        return taxiService.update(taxi);
     }
 }

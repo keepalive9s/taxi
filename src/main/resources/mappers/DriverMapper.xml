@@ -8,18 +8,23 @@
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="phone" jdbcType="CHAR" property="phone"/>
         <result column="license_num" jdbcType="CHAR" property="licenseNum"/>
-        <result column="identity_num" jdbcType="CHAR" property="identityNum"/>
-        <result column="plate_num" jdbcType="CHAR" property="plateNum"/>
+        <result column="driving_license_num" jdbcType="CHAR" property="drivingLicenseNum"/>
+        <result column="driving_license_class" jdbcType="CHAR" property="drivingLicenseClass"/>
+        <result column="taxi_id" jdbcType="INTEGER" property="taxiId"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from driver
     where id = #{id,jdbcType=CHAR}
-  </delete>
+    </delete>
     <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Driver">
-    insert into driver (id, name, gender, password, phone, license_num, identity_num)
+    insert into driver (id, name, gender, password, 
+      phone, license_num, driving_license_num, 
+      driving_license_class)
     values (#{id,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, #{password,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=CHAR}, #{licenseNum,jdbcType=CHAR}, #{identityNum,jdbcType=CHAR})
-  </insert>
+      #{phone,jdbcType=CHAR}, #{licenseNum,jdbcType=CHAR}, #{drivingLicenseNum,jdbcType=CHAR}, 
+      #{drivingLicenseClass,jdbcType=CHAR})
+    </insert>
     <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Driver">
         update driver
         <set>
@@ -28,17 +33,18 @@
             <if test="password!=null">password = #{password,jdbcType=VARCHAR},</if>
             <if test="phone!=null">phone = #{phone,jdbcType=CHAR},</if>
             <if test="licenseNum!=null">license_num = #{licenseNum,jdbcType=CHAR},</if>
-            <if test="identityNum!=null">identity_num = #{identityNum,jdbcType=CHAR},</if>
+            <if test="drivingLicenseNum!=null">driving_license_num = #{drivingLicenseNum,jdbcType=CHAR},</if>
+            <if test="drivingLicenseClass!=null">driving_license_class = #{drivingLicenseClass,jdbcType=CHAR}</if>
         </set>
         where id = #{id,jdbcType=CHAR}
     </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, name, gender, password, phone, license_num, identity_num
-    from driver
-    where id = #{id,jdbcType=CHAR}
-  </select>
-    <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, gender, password, phone, license_num, identity_num, taxi_id
+    select driver.id, name, gender, password, phone, license_num, driving_license_num, driving_license_class, max(end_time) AS end_time
     from driver left join contract on driver.id = contract.driver_id
-  </select>
+    where driver.id = #{id,jdbcType=CHAR} group by id
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select driver.id, name, gender, password, phone, license_num, driving_license_num, driving_license_class, max(end_time) AS end_time
+    from driver left join contract on driver.id = contract.driver_id group by id
+    </select>
 </mapper>

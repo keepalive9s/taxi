@@ -5,17 +5,19 @@ import java.util.Date;
 public class Taxi {
     private Integer id;
 
-    private String driverId;
-
     private String plateNum;
-
-    private String brand;
 
     private String model;
 
-    private Date createTime;
+    private String engineNum;
 
-    private Integer state;
+    private String vehicleIdentificationNum;
+
+    private Date launchDate;
+
+    private String driverId;
+
+    private Date endTime;
 
     public Integer getId() {
         return id;
@@ -33,14 +35,6 @@ public class Taxi {
         this.plateNum = plateNum;
     }
 
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public String getModel() {
         return model;
     }
@@ -49,20 +43,28 @@ public class Taxi {
         this.model = model;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getEngineNum() {
+        return engineNum;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setEngineNum(String engineNum) {
+        this.engineNum = engineNum;
     }
 
-    public Integer getState() {
-        return state;
+    public String getVehicleIdentificationNum() {
+        return vehicleIdentificationNum;
     }
 
-    public void setState(Integer state) {
-        this.state = state;
+    public void setVehicleIdentificationNum(String vehicleIdentificationNum) {
+        this.vehicleIdentificationNum = vehicleIdentificationNum;
+    }
+
+    public Date getLaunchDate() {
+        return launchDate;
+    }
+
+    public void setLaunchDate(Date launchDate) {
+        this.launchDate = launchDate;
     }
 
     public String getDriverId() {
@@ -71,5 +73,13 @@ public class Taxi {
 
     public void setDriverId(String driverId) {
         this.driverId = driverId;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

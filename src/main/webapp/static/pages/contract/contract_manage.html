@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layuiAdmin 网站用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../style/admin.css" media="all">
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-admin" data-type="add">添加签约</button>
+            </div>
+            <table id="contract-manage-table" lay-filter="contract-manage-table"></table>
+            <script type="text/html" id="contract_action_bar">
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="stop">中止</a>
+                <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="refund">退还押金</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+<script src="../../layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '../../' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table', 'util'], function () {
+        var $ = layui.$,
+            admin = layui.admin
+            , form = layui.form
+            , localData = layui.data(layui.setter.tableName)
+            , util = layui.util
+            , table = layui.table;
+        table.render({
+            elem: '#contract-manage-table',
+            url: localData.contextPath + '/api/contract',
+            page: true,
+            cols: [[
+                {field: 'id', width: 140, title: '签约单号', sort: true, fixed: 'left'},
+                {field: 'driverId', width: 110, title: '驾驶员编号'},
+                {field: 'name', width: 100, title: '姓名'},
+                {field: 'taxiId', width: 100, title: '车辆编号'},
+                {field: 'plateNum', width: 100, title: '车牌号'},
+                {field: 'deposit', width: 80, title: '押金'},
+                {
+                    field: 'endTime', width: 160, title: '签约到期时间', templet: function (d) {
+                        return util.toDateString(d.endTime, "yyyy-MM-dd HH:mm");
+                    }
+                },
+                {
+                    title: '状态', templet: function (d) {
+                        if (d.endTime > (new Date()).valueOf()) {
+                            return '生效中';
+                        } else {
+                            return '已过期';
+                        }
+                    }
+                },
+                {title: "操作", width: 200, align: "center", fixed: "right", toolbar: "#contract_action_bar"}
+            ]]
+        });
+        table.on("tool(contract-manage-table)", function (e) {
+            if (e.event === "refund") {
+                layer.confirm("确定要退还押金吗？", function (t) {
+                    admin.req({
+                        url: localData.contextPath + '/api/contract/refund/' + e.data.id,
+                        method: 'get',
+                        done: function (res) {
+                            layer.msg(res.resultMessage, {
+                                offset: '15px'
+                                , icon: res.icon
+                                , time: 2000
+                            }, function () {
+                                if (res.resultCode === 1) {
+                                    table.reload('contract-manage-table');
+                                }
+                            });
+                        }
+                    });
+                    layer.close(t);
+                })
+            } else if (e.event === "stop") {
+                layer.confirm("确定要提前中止签约？", function (t) {
+                    admin.req({
+                        url: localData.contextPath + '/api/contract/stop/' + e.data.id,
+                        method: 'get',
+                        done: function (res) {
+                            layer.msg(res.resultMessage, {
+                                offset: '15px'
+                                , icon: res.icon
+                                , time: 2000
+                            }, function () {
+                                if (res.resultCode === 1) {
+                                    table.reload('contract-manage-table');
+                                }
+                            });
+                        }
+                    });
+                    layer.close(t);
+                })
+            }
+        });
+        var active = {
+            add: function () {
+                layer.open({
+                    type: 2
+                    , title: '添加签约'
+                    , content: 'contract_add_form.html'
+                    , area: ['500px', '600px']
+                    , btn: ['确定', '取消']
+                    , yes: function (index, layero) {
+                        var iframeWindow = window['layui-layer-iframe' + index]
+                            , submitID = 'contract_create_submit'
+                            , submit = layero.find('iframe').contents().find('#' + submitID);
+
+                        //监听提交
+                        iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
+                            var field = data.field; //获取提交的字段
+                            if (field.workTimeSet === null || field.workTimeSet === '') {
+                                delete field.workTimeSet;
+                            }
+                            admin.req({
+                                url: localData.contextPath + '/api/contract'
+                                , method: 'post'
+                                , data: field
+                                , done: function (res) {
+                                    layer.msg(res.resultMessage, {
+                                        offset: '15px'
+                                        , icon: res.icon
+                                        , time: 2000
+                                    }, function () {
+                                        if (res.resultCode === 1) {
+                                            table.reload('contract-manage-table');
+                                        }
+                                    });
+                                }
+                            });
+                            layer.close(index); //关闭弹层
+                        });
+                        submit.trigger('click');
+                    }
+                });
+            }
+        };
+        $('.layui-btn.layuiadmin-btn-admin').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+</html>

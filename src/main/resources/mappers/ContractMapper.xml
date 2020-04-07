@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.haue.taxi.mapper.ContractMapper">
-  <resultMap id="BaseResultMap" type="cn.edu.haue.taxi.entity.Contract">
-    <id column="taxi_id" jdbcType="INTEGER" property="taxiId" />
-    <id column="driver_id" jdbcType="CHAR" property="driverId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="deposit" jdbcType="INTEGER" property="deposit" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="map">
+    <resultMap id="BaseResultMap" type="cn.edu.haue.taxi.entity.Contract">
+        <id column="id" jdbcType="CHAR" property="id"/>
+        <result column="taxi_id" jdbcType="INTEGER" property="taxiId"/>
+        <result column="driver_id" jdbcType="CHAR" property="driverId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="deposit" jdbcType="DOUBLE" property="deposit"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="plate_num" jdbcType="CHAR" property="plateNum"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from contract
-    where taxi_id = #{taxiId,jdbcType=INTEGER}
-      and driver_id = #{driverId,jdbcType=CHAR}
+    where id = #{id,jdbcType=CHAR}
   </delete>
-  <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Contract">
-    insert into contract (taxi_id, driver_id, create_time, 
-      end_time, deposit)
-    values (#{taxiId,jdbcType=INTEGER}, #{driverId,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{deposit,jdbcType=INTEGER})
+    <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Contract">
+    insert into contract (id, taxi_id, driver_id, end_time, deposit)
+    values (#{id,jdbcType=CHAR}, #{taxiId,jdbcType=INTEGER}, #{driverId,jdbcType=CHAR}, #{endTime,jdbcType=TIMESTAMP}, #{deposit,jdbcType=INTEGER})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Contract">
-    update contract
-    set create_time = #{createTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      deposit = #{deposit,jdbcType=INTEGER}
-    where taxi_id = #{taxiId,jdbcType=INTEGER}
-      and driver_id = #{driverId,jdbcType=CHAR}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-    select taxi_id, driver_id, create_time, end_time, deposit
+    <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Contract">
+        update contract
+        <set>
+            <if test="taxiId!=null">taxi_id = #{taxiId,jdbcType=INTEGER},</if>
+            <if test="driverId!=null">driver_id = #{driverId,jdbcType=CHAR},</if>
+            <if test="createTime!=null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="endTime!=null">end_time = #{endTime,jdbcType=TIMESTAMP},</if>
+            <if test="deposit!=null">deposit = #{deposit,jdbcType=INTEGER}</if>
+        </set>
+        where id = #{id,jdbcType=CHAR}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, taxi_id, driver_id, create_time, end_time, deposit
     from contract
-    where taxi_id = #{taxiId,jdbcType=INTEGER}
-      and driver_id = #{driverId,jdbcType=CHAR}
+    where id = #{id,jdbcType=CHAR}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select taxi_id, driver_id, create_time, end_time, deposit
-    from contract
+    <select id="selectAll" resultMap="BaseResultMap">
+    select contract.id, taxi_id, driver_id, contract.create_time, end_time, deposit, name, plate_num
+    from contract, driver, taxi where contract.taxi_id = taxi.id and contract.driver_id = driver.id
   </select>
 </mapper>

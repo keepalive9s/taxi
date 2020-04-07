@@ -13,37 +13,39 @@ CREATE TABLE `admin`
 DROP TABLE IF EXISTS `taxi`;
 CREATE TABLE `taxi`
 (
-    `id`          int(5)      NOT NULL AUTO_INCREMENT COMMENT '车辆编号',
-    `plate_num`   char(8)     NOT NULL COMMENT '车牌号码',
-    `brand`       varchar(10) NOT NULL COMMENT '汽车品牌',
-    `model`       varchar(10) NOT NULL COMMENT '汽车型号',
-    `create_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '投入使用时间',
+    `id`                         int(5)          NOT NULL AUTO_INCREMENT COMMENT '车辆编号',
+    `plate_num`                  char(8)         NOT NULL COMMENT '车牌号码',
+    `model`                      varchar(20)     NOT NULL COMMENT '车型',
+    `engine_num`                 char(8) UNIQUE  NOT NULL COMMENT '发动机号',
+    `vehicle_identification_num` char(17) UNIQUE NOT NULL COMMENT '车架号',
+    `launch_date`                timestamp       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发行日期',
     PRIMARY KEY (`id`)
 );
 
 DROP TABLE IF EXISTS `driver`;
 CREATE TABLE `driver`
 (
-    `id`           char(6)         NOT NULL COMMENT '司机编号',
-    `name`         varchar(20)     NOT NULL COMMENT '姓名',
-    `gender`       char(1)         NOT NULL COMMENT '性别',
-    `password`     varchar(50)     NOT NULL COMMENT '密码',
-    `phone`        char(11)        NOT NULL COMMENT '手机',
-    `license_num`  char(6) UNIQUE  NOT NULL COMMENT '从业资格号',
-    `driving_licence_num` char(18) UNIQUE NOT NULL COMMENT '驾驶证号',
-    `driving_licence_class` char(2) NOT NULL COMMENT '准驾车型',
+    `id`                    char(6)         NOT NULL COMMENT '司机编号',
+    `name`                  varchar(20)     NOT NULL COMMENT '姓名',
+    `gender`                char(1)         NOT NULL COMMENT '性别',
+    `password`              varchar(50)     NOT NULL COMMENT '密码',
+    `phone`                 char(11)        NOT NULL COMMENT '手机',
+    `license_num`           char(6) UNIQUE  NOT NULL COMMENT '证件号码',
+    `driving_license_num`   char(18) UNIQUE NOT NULL COMMENT '驾驶证号',
+    `driving_license_class` char(2)         NOT NULL COMMENT '准驾车型',
     PRIMARY KEY (`id`)
 );
 
 DROP TABLE IF EXISTS `contract`;
 CREATE TABLE `contract`
 (
-    `taxi_id`   int(5) COMMENT '车辆编号',
-    `driver_id` char(6) NOT NULL COMMENT '司机编号',
-    `create_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '签约时间',
-    `end_time` timestamp   NOT NULL COMMENT '合同中止时间',
-    `deposit` int(6) NOT NULL COMMENT '押金',
-    PRIMARY KEY (`taxi_id`, `driver_id`),
+    `id`          char(14)      NOT NULL COMMENT '编号',
+    `taxi_id`     int(5)        NOT NULL COMMENT '车辆编号',
+    `driver_id`   char(6)       NOT NULL COMMENT '司机编号',
+    `create_time` timestamp     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '签约时间',
+    `end_time`    timestamp     NOT NULL COMMENT '合同中止时间',
+    `deposit`     double(10, 2) NOT NULL COMMENT '押金',
+    PRIMARY KEY (`id`),
     CONSTRAINT `contract_driver_fk` FOREIGN KEY (`driver_id`) REFERENCES `driver` (`id`),
     CONSTRAINT `contract_taxi_fk` FOREIGN KEY (`taxi_id`) REFERENCES `taxi` (`id`)
 );

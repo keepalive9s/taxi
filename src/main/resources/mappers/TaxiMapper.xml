@@ -4,34 +4,39 @@
     <resultMap id="BaseResultMap" type="cn.edu.haue.taxi.entity.Taxi">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="plate_num" jdbcType="CHAR" property="plateNum"/>
-        <result column="brand" jdbcType="VARCHAR" property="brand"/>
         <result column="model" jdbcType="VARCHAR" property="model"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="engine_num" jdbcType="CHAR" property="engineNum"/>
+        <result column="vehicle_identification_num" jdbcType="CHAR" property="vehicleIdentificationNum"/>
+        <result column="launch_date" jdbcType="TIMESTAMP" property="launchDate"/>
         <result column="driver_id" jdbcType="CHAR" property="driverId"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from taxi
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Taxi">
-    insert into taxi (plate_num, brand, model)
-    values (#{plateNum,jdbcType=CHAR}, #{brand,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR})
+    insert into taxi (plate_num, model, engine_num, vehicle_identification_num)
+    values (#{plateNum,jdbcType=CHAR}, #{model,jdbcType=VARCHAR},
+      #{engineNum,jdbcType=CHAR}, #{vehicleIdentificationNum,jdbcType=CHAR})
   </insert>
     <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Taxi">
-    update taxi
-    set plate_num = #{plateNum,jdbcType=CHAR},
-      brand = #{brand,jdbcType=VARCHAR},
-      model = #{model,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update taxi
+        <set>
+            <if test="plateNum!=null">plate_num = #{plateNum,jdbcType=CHAR},</if>
+            <if test="model!=null">model = #{model,jdbcType=VARCHAR},</if>
+            <if test="engineNum!=null">engine_num = #{engineNum,jdbcType=CHAR},</if>
+            <if test="vehicleIdentificationNum!=null">vehicle_identification_num = #{vehicleIdentificationNum,jdbcType=CHAR}</if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, plate_num, brand, model, create_time
-    from taxi
-    where id = #{id,jdbcType=INTEGER}
+    select taxi.id, plate_num, model, engine_num, vehicle_identification_num, launch_date, max(end_time) AS end_time
+    from taxi left join contract on taxi.id = contract.taxi_id
+    where taxi.id = #{id,jdbcType=INTEGER} group by id
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    select id, plate_num, brand, model, taxi.create_time, driver_id
-    from taxi left join contract on taxi.id = contract.taxi_id
+    select taxi.id, plate_num, model, engine_num, vehicle_identification_num, launch_date, max(end_time) as end_time
+    from taxi left join contract on taxi.id = contract.taxi_id group by id
   </select>
 </mapper>

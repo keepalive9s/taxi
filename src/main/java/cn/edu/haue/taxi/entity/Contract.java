@@ -1,17 +1,34 @@
 package cn.edu.haue.taxi.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Contract {
+    private String id;
+
     private Integer taxiId;
 
     private String driverId;
 
     private Date createTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
 
-    private Integer deposit;
+    private Double deposit;
+
+    private String name;
+
+    private String plateNum;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Integer getTaxiId() {
         return taxiId;
@@ -45,11 +62,27 @@ public class Contract {
         this.endTime = endTime;
     }
 
-    public Integer getDeposit() {
+    public Double getDeposit() {
         return deposit;
     }
 
-    public void setDeposit(Integer deposit) {
+    public void setDeposit(Double deposit) {
         this.deposit = deposit;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPlateNum() {
+        return plateNum;
+    }
+
+    public void setPlateNum(String plateNum) {
+        this.plateNum = plateNum;
     }
 }

@@ -14,4 +14,8 @@ public interface TaxiService {
 
     ResponseInfo create(Taxi taxi);
 
+    ResponseInfo update(Taxi taxi);
+
+    ResponseData<Taxi> findById(Integer id);
+
 }

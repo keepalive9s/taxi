@@ -85,9 +85,27 @@
                         </a>
                     </li>
                     <li data-name="home" class="layui-nav-item">
+                        <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/contract/contract_manage.html" lay-tips="签约管理" lay-direction="2">
+                            <i class="layui-icon layui-icon-home"></i>
+                            <cite>签约管理</cite>
+                        </a>
+                    </li>
+                    <li data-name="home" class="layui-nav-item">
                         <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/admin/no.html" lay-tips="违章管理" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
                             <cite>违章管理</cite>
+                        </a>
+                    </li>
+                    <li data-name="home" class="layui-nav-item">
+                        <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/admin/no.html" lay-tips="违章管理" lay-direction="2">
+                            <i class="layui-icon layui-icon-home"></i>
+                            <cite>奖励管理</cite>
+                        </a>
+                    </li>
+                    <li data-name="home" class="layui-nav-item">
+                        <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/admin/no.html" lay-tips="违章管理" lay-direction="2">
+                            <i class="layui-icon layui-icon-home"></i>
+                            <cite>投诉管理</cite>
                         </a>
                     </li>
                 </ul>

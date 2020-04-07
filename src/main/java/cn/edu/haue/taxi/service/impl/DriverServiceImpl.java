@@ -39,7 +39,7 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public ResponseInfo create(Driver driver) {
         driver.setId(UUIDUtil.SerialNum());
-        String identityNum = driver.getIdentityNum();
+        String identityNum = driver.getDrivingLicenseNum();
         driver.setPassword(MD5Util.MD5EncodeUtf8(identityNum.substring(identityNum.length() - 6)));
         int i = driverMapper.insert(driver);
         if (i == 1) {
@@ -70,7 +70,7 @@ public class DriverServiceImpl implements DriverService {
             }
         } catch (DataAccessException e) {
             e.printStackTrace();
-            return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "该车辆编号不存在");
+            return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "信息更新失败");
         }
     }
 

@@ -11,7 +11,10 @@
 </head>
 <body>
 
-<div class="layui-form" style="padding: 20px 30px 10px 10px;">
+<div class="layui-form" lay-filter="taxi-info" style="padding: 20px 30px 10px 10px;">
+    <div class="layui-form-item layui-hide">
+        <input type="text" name="id" lay-verify="required" class="layui-input">
+    </div>
     <div class="layui-form-item">
         <label class="layui-form-label">车牌号</label>
         <div class="layui-input-block">
@@ -19,29 +22,53 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">厂牌</label>
-        <div class="layui-input-block">
-            <input type="text" name="brand" lay-verify="required" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">型号</label>
+        <label class="layui-form-label">车型</label>
         <div class="layui-input-block">
             <input type="text" name="model" lay-verify="required" class="layui-input">
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发动机编号</label>
+        <div class="layui-input-block">
+            <input type="text" name="engineNum" lay-verify="required" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">车架号</label>
+        <div class="layui-input-block">
+            <input type="text" name="vehicleIdentificationNum" lay-verify="required" class="layui-input">
+        </div>
+    </div>
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="taxi_create_submit" value="确认" id="taxi_create_submit">
+        <input type="button" lay-submit lay-filter="taxi_update_submit" value="确认" id="taxi_update_submit">
     </div>
 </div>
 <script src="../../layui/layui.js"></script>
 <script>
-    layui.config({
-        base: '../../'
-    }).extend({
-        index: 'lib/index'
-    }).use(['index', 'form'], function () {
-    });
+    function init(d) {
+        layui.config({
+            base: '../../'
+        }).extend({
+            index: 'lib/index'
+        }).use(['index', 'form'], function () {
+            var $ = layui.$, form = layui.form, admin = layui.admin, localData = layui.data(layui.setter.tableName);
+            admin.req({
+                url: localData.contextPath + '/api/taxi/' + d,
+                method: 'get',
+                done: function (res) {
+                    if (res.resultCode === 1) {
+                        form.val("taxi-info", res.data)
+                    } else {
+                        layer.msg(res.resultMessage, {
+                            offset: '15px'
+                            , icon: res.icon
+                            , time: 1000
+                        });
+                    }
+                }
+            });
+        });
+    }
 </script>
 </body>
 </html>

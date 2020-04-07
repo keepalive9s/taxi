@@ -9,6 +9,7 @@ import cn.edu.haue.taxi.service.TaxiService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,6 +45,31 @@ public class TaxiServiceImpl implements TaxiService {
             return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "新增出租车成功");
         } else {
             return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "新增出租车失败");
+        }
+    }
+
+    @Override
+    public ResponseInfo update(Taxi taxi) {
+        try {
+            int i = taxiMapper.updateByPrimaryKey(taxi);
+            if (i == 1) {
+                return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "信息更新成功");
+            } else {
+                return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "信息更新失败");
+            }
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "信息更新失败");
+        }
+    }
+
+    @Override
+    public ResponseData<Taxi> findById(Integer id) {
+        Taxi taxi = taxiMapper.selectByPrimaryKey(id);
+        if (taxi == null) {
+            return new ResponseData<>(ResultCode.RESULT_CODE_FAIL, null);
+        } else {
+            return new ResponseData<>(ResultCode.RESULT_CODE_SUCCESS, taxi);
         }
     }
 }

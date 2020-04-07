@@ -20,7 +20,7 @@
             </div>
             <table id="driver-manage-table" lay-filter="driver-manage-table"></table>
             <script type="text/html" id="driver_action_bar">
-                <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+                <a class="layui-btn layui-btn-xs" lay-event="edit">查看/修改</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
             </script>
         </div>
@@ -50,13 +50,16 @@
                 {field: 'gender', title: '性别'},
                 {field: 'age', title: '年龄'},
                 {field: 'phone', title: '手机'},
-                {field: 'licenseNum', title: '从业资格证号'},
+                {field: 'licenseNum', title: '证件号'},
+                {field: 'drivingLicenseClass', title: '准驾车型'},
                 {
                     title: '状态', templet: function (d) {
-                        if (d.taxiId === null) {
+                        if (d.endTime === null) {
                             return '未签约';
-                        } else {
+                        } else if (d.endTime > (new Date()).valueOf()) {
                             return '已签约';
+                        } else {
+                            return '签约过期';
                         }
                     }
                 },
