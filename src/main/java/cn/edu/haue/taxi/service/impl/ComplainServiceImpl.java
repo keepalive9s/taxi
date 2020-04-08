@@ -41,7 +41,7 @@ public class ComplainServiceImpl implements ComplainService {
                     complain.setPlateNum(item.getPlateNum());
                     int i = complainMapper.insert(complain);
                     if (i == 1) {
-                        return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "投诉成功，编号:"+complain.getId()+"，请记下投诉编号以查询结果");
+                        return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "投诉成功，编号:" + complain.getId() + "，请记下投诉编号以查询结果");
                     } else {
                         return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "投诉失败");
                     }
@@ -55,7 +55,7 @@ public class ComplainServiceImpl implements ComplainService {
                     complain.setTaxiId(item.getTaxiId());
                     int i = complainMapper.insert(complain);
                     if (i == 1) {
-                        return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "投诉成功，编号:"+complain.getId()+"，请记下投诉编号以查询结果");
+                        return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "投诉成功，编号:" + complain.getId() + "，请记下投诉编号以查询结果");
                     } else {
                         return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "投诉失败");
                     }
@@ -69,7 +69,7 @@ public class ComplainServiceImpl implements ComplainService {
                     complain.setPlateNum(item.getPlateNum());
                     int i = complainMapper.insert(complain);
                     if (i == 1) {
-                        return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "投诉成功，编号:"+complain.getId()+"，请记下投诉编号以查询结果");
+                        return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "投诉成功，编号:" + complain.getId() + "，请记下投诉编号以查询结果");
                     } else {
                         return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "投诉失败");
                     }
@@ -96,7 +96,7 @@ public class ComplainServiceImpl implements ComplainService {
     public ResponseData<Complain> findById(String id) {
         Complain complain = complainMapper.selectByPrimaryKey(id);
         if (complain == null) {
-            return new ResponseData<>(ResultCode.RESULT_CODE_FAIL, null);
+            return new ResponseData<>(ResultCode.RESULT_CODE_FAIL, "查询失败", null);
         } else {
             return new ResponseData<>(ResultCode.RESULT_CODE_SUCCESS, complain);
         }

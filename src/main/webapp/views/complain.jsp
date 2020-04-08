@@ -31,18 +31,21 @@
                                         <div class="layui-input-inline">
                                             <input type="text" name="driverId" class="layui-input">
                                         </div>
+                                        <div class="layui-form-mid layui-word-aux">非必填，请提供尽可能详细的信息</div>
                                     </div>
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">车辆编号</label>
                                         <div class="layui-input-inline">
                                             <input type="text" name="taxiId" class="layui-input">
                                         </div>
+                                        <div class="layui-form-mid layui-word-aux">非必填，请提供尽可能详细的信息</div>
                                     </div>
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">车牌号</label>
                                         <div class="layui-input-inline">
                                             <input type="text" name="plateNum" class="layui-input">
                                         </div>
+                                        <div class="layui-form-mid layui-word-aux">非必填，请提供尽可能详细的信息</div>
                                     </div>
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">发生时间</label>
