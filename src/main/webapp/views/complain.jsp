@@ -86,7 +86,7 @@
                                         <div class="layui-inline">
                                             <label class="layui-form-label">投诉编号</label>
                                             <div class="layui-input-inline">
-                                                <input type="text" name="id" autocomplete="off" class="layui-input" placeholder="请输入要查询的投诉编号">
+                                                <input type="text" name="id" autocomplete="off" lay-verify="required" class="layui-input" placeholder="请输入要查询的投诉编号">
                                             </div>
                                         </div>
                                         <div class="layui-inline">
