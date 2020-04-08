@@ -1,9 +1,11 @@
 package cn.edu.haue.taxi.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Contract {
     private String id;
 
@@ -84,5 +86,19 @@ public class Contract {
 
     public void setPlateNum(String plateNum) {
         this.plateNum = plateNum;
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "id='" + id + '\'' +
+                ", taxiId=" + taxiId +
+                ", driverId='" + driverId + '\'' +
+                ", createTime=" + createTime +
+                ", endTime=" + endTime +
+                ", deposit=" + deposit +
+                ", name='" + name + '\'' +
+                ", plateNum='" + plateNum + '\'' +
+                '}';
     }
 }

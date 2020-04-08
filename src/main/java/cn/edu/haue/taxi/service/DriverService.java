@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DriverService {
 
-    ResponseData<List<Driver>> listAll(int pageNum, int pageSize);
+    ResponseData<List<Driver>> list(int pageNum, int pageSize);
 
     ResponseInfo create(Driver driver);
 

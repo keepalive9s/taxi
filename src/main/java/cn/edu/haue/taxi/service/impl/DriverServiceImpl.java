@@ -4,7 +4,6 @@ import cn.edu.haue.taxi.common.ResponseData;
 import cn.edu.haue.taxi.common.ResponseInfo;
 import cn.edu.haue.taxi.common.ResultCode;
 import cn.edu.haue.taxi.entity.Driver;
-import cn.edu.haue.taxi.entity.Taxi;
 import cn.edu.haue.taxi.mapper.DriverMapper;
 import cn.edu.haue.taxi.mapper.TaxiMapper;
 import cn.edu.haue.taxi.service.DriverService;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service
@@ -29,7 +27,7 @@ public class DriverServiceImpl implements DriverService {
     private TaxiMapper taxiMapper;
 
     @Override
-    public ResponseData<List<Driver>> listAll(int pageNum, int pageSize) {
+    public ResponseData<List<Driver>> list(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Driver> drivers = driverMapper.selectAll();
         PageInfo<Driver> pageInfo = new PageInfo<>(drivers);

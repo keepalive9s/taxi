@@ -16,10 +16,10 @@
     <div class="layui-card">
         <div class="layui-card-body">
             <div style="padding-bottom: 10px;">
-                <button class="layui-btn layuiadmin-btn-admin" data-type="add">添加车辆</button>
+                <button class="layui-btn layuiadmin-btn-admin" data-type="add">添加记录</button>
             </div>
-            <table id="taxi-manage-table" lay-filter="taxi-manage-table"></table>
-            <script type="text/html" id="taxi_action_bar">
+            <table id="rule-manage-table" lay-filter="rule-manage-table"></table>
+            <script type="text/html" id="rule_action_bar">
                 <a class="layui-btn layui-btn-xs" lay-event="edit">查看/修改</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
             </script>
@@ -41,35 +41,47 @@
             , util = layui.util
             , table = layui.table;
         table.render({
-            elem: '#taxi-manage-table',
-            url: localData.contextPath + '/api/taxi',
+            elem: '#rule-manage-table',
+            url: localData.contextPath + '/api/rule',
             page: true,
             cols: [[
-                {field: 'id', title: '车辆编号', sort: true, fixed: 'left'},
-                {field: 'plateNum', title: '车牌号'},
-                {field: 'model', title: '车型'},
+                {field: 'id', width: 140, title: '记录编号', sort: true, fixed: 'left'},
+                {field: 'driverId', title: '驾驶员编号'},
+                {field: 'name', title: '姓名'},
+                {field: 'taxiId', title: '车辆编号'},
+                {field: 'plateNum', title: '车牌'},
                 {
-                    field: 'createTime', title: '录入时间', templet: function (d) {
-                        return util.toDateString(d.createTime, "yyyy-MM-dd HH:mm");
-                    }
-                },
-                {
-                    title: '状态', templet: function (d) {
-                        if (d.endTime > (new Date()).valueOf()) {
-                            return '已分配';
-                        } else {
-                            return '未分配';
+                    field: 'type', title: '类型', templet: function (d) {
+                        if (d.type === -1) {
+                            return '奖励';
+                        } else if (d.type === 1) {
+                            return '被投诉';
+                        } else if (d.type === 2) {
+                            return '交通违法';
+                        } else if (d.type === 3) {
+                            return '营运违章';
                         }
                     }
                 },
-                {title: "操作", width: 200, align: "center", fixed: "right", toolbar: "#taxi_action_bar"}
+                {field: 'cost', title: '奖罚金额'},
+                {field: 'origin', title: '来源'},
+                {
+                    title: '状态', templet: function (d) {
+                        if (d.state === 0) {
+                            return '待处理';
+                        } else {
+                            return '已处理';
+                        }
+                    }
+                },
+                {title: "操作", width: 150, align: "center", fixed: "right", toolbar: "#rule_action_bar"}
             ]]
         });
-        table.on("tool(taxi-manage-table)", function (e) {
+        table.on("tool(rule-manage-table)", function (e) {
             if (e.event === "del") {
                 layer.confirm("确定要删除？", function (t) {
                     admin.req({
-                        url: localData.contextPath + '/api/taxi/' + e.data.id,
+                        url: localData.contextPath + '/api/rule/' + e.data.id,
                         method: 'delete',
                         done: function (res) {
                             layer.msg(res.resultMessage, {
@@ -88,13 +100,13 @@
             } else if (e.event === "edit") {
                 layer.open({
                     type: 2
-                    , title: '修改车辆信息'
-                    , content: 'taxi_edit_form.html'
-                    , area: ['550px', '450px']
+                    , title: '查看/修改记录'
+                    , content: 'rule_edit_form.html'
+                    , area: ['700px', '620px']
                     , btn: ['确定', '取消']
                     , yes: function (index, layero) {
                         var iframeWindow = window['layui-layer-iframe' + index]
-                            , submitID = 'taxi_update_submit'
+                            , submitID = 'rule_update_submit'
                             , submit = layero.find('iframe').contents().find('#' + submitID);
                         //监听提交
                         iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
@@ -103,7 +115,7 @@
                                 delete field.workTimeSet;
                             }
                             admin.req({
-                                url: localData.contextPath + '/api/taxi'
+                                url: localData.contextPath + '/api/rule'
                                 , method: 'put'
                                 , data: JSON.stringify(field)
                                 , contentType: "application/json"
@@ -114,7 +126,7 @@
                                         , time: 1000
                                     }, function () {
                                         if (res.resultCode === 1) {
-                                            table.reload('taxi-manage-table');
+                                            table.reload('rule-manage-table');
                                         }
                                     });
                                 }
@@ -134,13 +146,13 @@
             add: function () {
                 layer.open({
                     type: 2
-                    , title: '添加新车辆'
-                    , content: 'taxi_add_form.html'
-                    , area: ['500px', '350px']
+                    , title: '添加奖罚记录'
+                    , content: 'rule_add_form.html'
+                    , area: ['700px', '620px']
                     , btn: ['确定', '取消']
                     , yes: function (index, layero) {
                         var iframeWindow = window['layui-layer-iframe' + index]
-                            , submitID = 'taxi_create_submit'
+                            , submitID = 'rule_create_submit'
                             , submit = layero.find('iframe').contents().find('#' + submitID);
 
                         //监听提交
@@ -150,7 +162,7 @@
                                 delete field.workTimeSet;
                             }
                             admin.req({
-                                url: localData.contextPath + '/api/taxi'
+                                url: localData.contextPath + '/api/rule'
                                 , method: 'post'
                                 , data: field
                                 , done: function (res) {
@@ -160,7 +172,7 @@
                                         , time: 1000
                                     }, function () {
                                         if (res.resultCode === 1) {
-                                            table.reload('taxi-manage-table');
+                                            table.reload('rule-manage-table');
                                         }
                                     });
                                 }

@@ -48,7 +48,7 @@
                         <cite>${sessionScope.currentAdmin.username}</cite>
                     </a>
                     <dl class="layui-nav-child layui-hide-xs">
-                        <dd><a lay-href="${pageContext.request.contextPath}/static/pages/admin/password.html">修改密码</a></dd>
+                        <dd><a lay-href="${pageContext.request.contextPath}/static/pages/password.html">修改密码</a></dd>
                         <hr>
                         <dd style="text-align: center;"><a href="${pageContext.request.contextPath}/logout">退出</a></dd>
                     </dl>
@@ -91,19 +91,13 @@
                         </a>
                     </li>
                     <li data-name="home" class="layui-nav-item">
-                        <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/admin/no.html" lay-tips="违章管理" lay-direction="2">
+                        <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/rule/rule_manage.html" lay-tips="奖罚管理" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
-                            <cite>违章管理</cite>
+                            <cite>奖罚管理</cite>
                         </a>
                     </li>
                     <li data-name="home" class="layui-nav-item">
-                        <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/admin/no.html" lay-tips="违章管理" lay-direction="2">
-                            <i class="layui-icon layui-icon-home"></i>
-                            <cite>奖励管理</cite>
-                        </a>
-                    </li>
-                    <li data-name="home" class="layui-nav-item">
-                        <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/admin/no.html" lay-tips="违章管理" lay-direction="2">
+                        <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/complain/complain_manage.html" lay-tips="投诉管理" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
                             <cite>投诉管理</cite>
                         </a>

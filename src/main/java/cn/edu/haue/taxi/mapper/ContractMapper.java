@@ -10,7 +10,15 @@ public interface ContractMapper {
 
     Contract selectByPrimaryKey(String id);
 
+    List<Contract> selectByTaxiId(Integer id);
+
+    List<Contract> selectByDriverId(String id);
+
+    List<Contract> selectByPlateNum(String num);
+
     List<Contract> selectAll();
 
     int updateByPrimaryKey(Contract record);
+
+
 }

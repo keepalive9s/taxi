@@ -1,7 +1,10 @@
 package cn.edu.haue.taxi.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Taxi {
     private Integer id;
 

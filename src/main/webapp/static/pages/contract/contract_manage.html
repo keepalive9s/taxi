@@ -50,7 +50,15 @@
                 {field: 'name', width: 100, title: '姓名'},
                 {field: 'taxiId', width: 100, title: '车辆编号'},
                 {field: 'plateNum', width: 100, title: '车牌号'},
-                {field: 'deposit', width: 80, title: '押金'},
+                {
+                    field: 'deposit', width: 80, title: '押金', templet: function (d) {
+                        if (d.deposit > 0) {
+                            return d.deposit;
+                        } else {
+                            return '已退还';
+                        }
+                    }
+                },
                 {
                     field: 'endTime', width: 160, title: '签约到期时间', templet: function (d) {
                         return util.toDateString(d.endTime, "yyyy-MM-dd HH:mm");
@@ -61,7 +69,7 @@
                         if (d.endTime > (new Date()).valueOf()) {
                             return '生效中';
                         } else {
-                            return '已过期';
+                            return '已失效';
                         }
                     }
                 },

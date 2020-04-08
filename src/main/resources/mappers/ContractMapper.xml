@@ -39,4 +39,19 @@
     select contract.id, taxi_id, driver_id, contract.create_time, end_time, deposit, name, plate_num
     from contract, driver, taxi where contract.taxi_id = taxi.id and contract.driver_id = driver.id
   </select>
+    <select id="selectByTaxiId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT driver_id,taxi_id,plate_num,end_time,create_time
+    FROM contract LEFT JOIN taxi ON contract.taxi_id=taxi.id
+    WHERE taxi_id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByDriverId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT driver_id,taxi_id,plate_num,end_time,create_time
+    FROM contract LEFT JOIN taxi ON contract.taxi_id=taxi.id
+    WHERE driver_id = #{id,jdbcType=CHAR}
+    </select>
+    <select id="selectByPlateNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT driver_id,taxi_id,plate_num,end_time,create_time
+    FROM contract LEFT JOIN taxi ON contract.taxi_id=taxi.id
+    WHERE plate_num = #{id,jdbcType=CHAR}
+    </select>
 </mapper>

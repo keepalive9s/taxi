@@ -1,9 +1,11 @@
 package cn.edu.haue.taxi.entity;
 
 import cn.edu.haue.taxi.util.IDUtil;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Driver {
     private String id;
 

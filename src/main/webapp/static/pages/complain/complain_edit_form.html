@@ -11,36 +11,48 @@
 </head>
 <body>
 
-<div class="layui-form" lay-filter="taxi-info" style="padding: 20px 30px 10px 10px;">
+<div class="layui-form" lay-filter="complain-info" style="padding: 20px 30px 10px 10px;">
     <div class="layui-form-item layui-hide">
         <input type="text" name="id" lay-verify="required" class="layui-input">
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">车牌号</label>
-        <div class="layui-input-block">
-            <input type="text" name="plateNum" lay-verify="required|plateNum" class="layui-input">
+        <label class="layui-form-label">发生时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="time" class="layui-input" autocomplete="off" readonly>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">车型</label>
+        <label class="layui-form-label">发生地点</label>
         <div class="layui-input-block">
-            <input type="text" name="model" lay-verify="required" class="layui-input">
+            <input type="text" name="location" class="layui-input" readonly>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">投诉内容</label>
+        <div class="layui-input-block">
+            <textarea name="reason" class="layui-textarea" readonly></textarea>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">发动机编号</label>
+        <label class="layui-form-label">手机号</label>
         <div class="layui-input-block">
-            <input type="text" name="engineNum" lay-verify="required" class="layui-input">
+            <input type="text" name="phone" class="layui-input" readonly>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">车架号</label>
+        <label class="layui-form-label">处理结果</label>
         <div class="layui-input-block">
-            <input type="text" name="vehicleIdentificationNum" lay-verify="required" class="layui-input">
+            <input type="text" name="result" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">处理标记</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" name="state" value="1" lay-skin="switch" lay-text="已处理|未处理">
         </div>
     </div>
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="taxi_update_submit" value="确认" id="taxi_update_submit">
+        <input type="button" lay-submit lay-filter="complain_update_submit" value="确认" id="complain_update_submit">
     </div>
 </div>
 <script src="../../layui/layui.js"></script>
@@ -52,18 +64,12 @@
             index: 'lib/index'
         }).use(['index', 'form'], function () {
             var $ = layui.$, form = layui.form, admin = layui.admin, localData = layui.data(layui.setter.tableName);
-            form.verify({
-                plateNum: [
-                    /[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳]{1}/
-                    , '车牌号格式不正确'
-                ]
-            });
             admin.req({
-                url: localData.contextPath + '/api/taxi/' + d,
+                url: localData.contextPath + '/api/complain/' + d,
                 method: 'get',
                 done: function (res) {
                     if (res.resultCode === 1) {
-                        form.val("taxi-info", res.data)
+                        form.val("complain-info", res.data)
                     } else {
                         layer.msg(res.resultMessage, {
                             offset: '15px'

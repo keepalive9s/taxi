@@ -23,6 +23,11 @@ public class MvcController {
         return "driver";
     }
 
+    @RequestMapping("complain")
+    public String complain() {
+        return "complain";
+    }
+
     //注销登陆
     @RequestMapping("logout")
     public String signOut(HttpSession session) {

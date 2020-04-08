@@ -18,7 +18,7 @@ public class DriverController {
 
     @GetMapping
     public ResponseData<List<Driver>> list(@RequestParam("page") int pageNum, @RequestParam("limit") int pageSize) {
-        return driverService.listAll(pageNum, pageSize);
+        return driverService.list(pageNum, pageSize);
     }
 
     @GetMapping("{id}")

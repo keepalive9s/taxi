@@ -1,6 +1,8 @@
 import cn.edu.haue.taxi.entity.Admin;
+import cn.edu.haue.taxi.entity.Contract;
 import cn.edu.haue.taxi.entity.Driver;
 import cn.edu.haue.taxi.mapper.AdminMapper;
+import cn.edu.haue.taxi.mapper.ContractMapper;
 import cn.edu.haue.taxi.mapper.DriverMapper;
 import cn.edu.haue.taxi.util.MD5Util;
 import org.junit.Test;
@@ -21,6 +23,9 @@ public class MapperTest {
     @Autowired
     private DriverMapper driverMapper;
 
+    @Autowired
+    private ContractMapper contractMapper;
+
     @Test
     public void t0() {
         Admin admin = new Admin();
@@ -35,6 +40,11 @@ public class MapperTest {
         for (Driver item : drivers) {
             System.out.println(item);
         }
+    }
+
+    @Test
+    public void t2() {
+
     }
 
 }

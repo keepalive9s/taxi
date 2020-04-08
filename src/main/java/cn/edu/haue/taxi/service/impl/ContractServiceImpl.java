@@ -45,8 +45,7 @@ public class ContractServiceImpl implements ContractService {
         if (driver.getEndTime() != null && driver.getEndTime().after(new Date())) {
             return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "当前驾驶员已签约且签约未到期，无法重复签约");
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        contract.setId(simpleDateFormat.format(new Date()) + UUIDUtil.SerialNum());
+        contract.setId(UUIDUtil.Id());
         int i = contractMapper.insert(contract);
         if (i == 1) {
             return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "签约添加成功");

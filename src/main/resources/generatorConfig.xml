@@ -27,10 +27,9 @@
 <!--        <table tableName="admin" enableSelectByExample="true" enableDeleteByExample="true"/>-->
 <!--        <table tableName="taxi" enableSelectByExample="true" enableDeleteByExample="true"/>-->
 <!--        <table tableName="driver" enableSelectByExample="true" enableDeleteByExample="true"/>-->
-        <table tableName="contract" enableSelectByExample="true" enableDeleteByExample="true"/>
-<!--        <table tableName="reward" enableSelectByExample="true" enableDeleteByExample="true"/>-->
-<!--        <table tableName="punish" enableSelectByExample="true" enableDeleteByExample="true"/>-->
-<!--        <table tableName="complain" enableSelectByExample="true" enableDeleteByExample="true"/>-->
+<!--        <table tableName="contract" enableSelectByExample="true" enableDeleteByExample="true"/>-->
+        <table tableName="rule" enableSelectByExample="true" enableDeleteByExample="true"/>
+        <table tableName="complain" enableSelectByExample="true" enableDeleteByExample="true"/>
 
     </context>
 </generatorConfiguration>

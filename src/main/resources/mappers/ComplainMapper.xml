@@ -1,52 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.haue.taxi.mapper.ComplainMapper">
-  <resultMap id="BaseResultMap" type="cn.edu.haue.taxi.entity.Complain">
-    <id column="id" jdbcType="CHAR" property="id" />
-    <result column="driver_id" jdbcType="CHAR" property="driverId" />
-    <result column="plate_num" jdbcType="VARCHAR" property="plateNum" />
-    <result column="phone" jdbcType="CHAR" property="phone" />
-    <result column="reason" jdbcType="VARCHAR" property="reason" />
-    <result column="state" jdbcType="INTEGER" property="state" />
-    <result column="result" jdbcType="VARCHAR" property="result" />
-    <result column="time" jdbcType="TIMESTAMP" property="time" />
-    <result column="location" jdbcType="VARCHAR" property="location" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <resultMap id="BaseResultMap" type="cn.edu.haue.taxi.entity.Complain">
+        <id column="id" jdbcType="CHAR" property="id"/>
+        <result column="driver_id" jdbcType="CHAR" property="driverId"/>
+        <result column="taxi_id" jdbcType="INTEGER" property="taxiId"/>
+        <result column="plate_num" jdbcType="VARCHAR" property="plateNum"/>
+        <result column="phone" jdbcType="CHAR" property="phone"/>
+        <result column="reason" jdbcType="VARCHAR" property="reason"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="result" jdbcType="VARCHAR" property="result"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from complain
     where id = #{id,jdbcType=CHAR}
   </delete>
-  <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Complain">
-    insert into complain (id, driver_id, plate_num, 
-      phone, reason, state, 
-      result, time, location, 
-      create_time)
-    values (#{id,jdbcType=CHAR}, #{driverId,jdbcType=CHAR}, #{plateNum,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=CHAR}, #{reason,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{result,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{location,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+    <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Complain">
+    insert into complain (id, driver_id, taxi_id, plate_num, phone, reason, time, location, result)
+    values (#{id,jdbcType=CHAR}, #{driverId,jdbcType=CHAR}, #{taxiId,jdbcType=INTEGER}, 
+      #{plateNum,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR}, #{reason,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{location,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Complain">
-    update complain
-    set driver_id = #{driverId,jdbcType=CHAR},
-      plate_num = #{plateNum,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=CHAR},
-      reason = #{reason,jdbcType=VARCHAR},
-      state = #{state,jdbcType=INTEGER},
-      result = #{result,jdbcType=VARCHAR},
-      time = #{time,jdbcType=TIMESTAMP},
-      location = #{location,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=CHAR}
-  </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, driver_id, plate_num, phone, reason, state, result, time, location, create_time
+    <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Complain">
+        update complain
+        <set>
+            <if test="driverId!=null">driver_id = #{driverId,jdbcType=CHAR},</if>
+            <if test="taxiId!=null">taxi_id = #{taxiId,jdbcType=INTEGER},</if>
+            <if test="plateNum!=null">plate_num = #{plateNum,jdbcType=VARCHAR},</if>
+            <if test="phone!=null">phone = #{phone,jdbcType=CHAR},</if>
+            <if test="reason!=null">reason = #{reason,jdbcType=VARCHAR},</if>
+            <if test="time!=null">time = #{time,jdbcType=TIMESTAMP},</if>
+            <if test="location!=null">location = #{location,jdbcType=VARCHAR},</if>
+            <if test="createTime!=null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="state!=null">state = #{state,jdbcType=INTEGER},</if>
+            <if test="result!=null">result = #{result,jdbcType=VARCHAR}</if>
+        </set>
+        where id = #{id,jdbcType=CHAR}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, driver_id, taxi_id, plate_num, phone, reason, time, location, create_time, 
+    state, result
     from complain
     where id = #{id,jdbcType=CHAR}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, driver_id, plate_num, phone, reason, state, result, time, location, create_time
-    from complain
+    <select id="selectAll" resultMap="BaseResultMap">
+    select complain.id, driver_id, taxi_id, plate_num, complain.phone, reason, time, location, create_time, name,
+    state, result
+    from complain,driver where complain.driver_id=driver.id
   </select>
 </mapper>
