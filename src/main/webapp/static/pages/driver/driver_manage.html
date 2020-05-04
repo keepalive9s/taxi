@@ -54,7 +54,8 @@
                 {field: 'drivingLicenseClass', title: '准驾车型'},
                 {
                     title: '状态', templet: function (d) {
-                        if (d.endTime === null) {
+                        console.log(d.endTime)
+                        if (d.endTime === undefined) {
                             return '未签约';
                         } else if (d.endTime > (new Date()).valueOf()) {
                             return '已签约';
