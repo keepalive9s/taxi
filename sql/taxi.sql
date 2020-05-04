@@ -8,7 +8,7 @@ CREATE TABLE `admin`
     `username` varchar(20) NOT NULL COMMENT '用户名',
     `password` varchar(50) NOT NULL COMMENT '密码',
     PRIMARY KEY (`username`)
-);
+) COMMENT '管理员';
 
 DROP TABLE IF EXISTS `taxi`;
 CREATE TABLE `taxi`
@@ -20,8 +20,8 @@ CREATE TABLE `taxi`
     `vehicle_identification_num` char(17) UNIQUE NOT NULL COMMENT '车架号',
     `launch_date`                timestamp       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发行日期',
     PRIMARY KEY (`id`),
-    INDEX(plate_num)
-);
+    INDEX (plate_num)
+) COMMENT '车辆';
 
 DROP TABLE IF EXISTS `driver`;
 CREATE TABLE `driver`
@@ -35,7 +35,7 @@ CREATE TABLE `driver`
     `driving_license_num`   char(18) UNIQUE NOT NULL COMMENT '驾驶证号',
     `driving_license_class` char(2)         NOT NULL COMMENT '准驾车型',
     PRIMARY KEY (`id`)
-);
+) COMMENT '司机';
 
 DROP TABLE IF EXISTS `contract`;
 CREATE TABLE `contract`
@@ -49,7 +49,7 @@ CREATE TABLE `contract`
     PRIMARY KEY (`id`),
     CONSTRAINT `contract_driver_fk` FOREIGN KEY (`driver_id`) REFERENCES `driver` (`id`),
     CONSTRAINT `contract_taxi_fk` FOREIGN KEY (`taxi_id`) REFERENCES `taxi` (`id`)
-);
+) COMMENT '签约';
 
 DROP TABLE IF EXISTS `rule`;
 CREATE TABLE `rule`
@@ -70,25 +70,33 @@ CREATE TABLE `rule`
     CONSTRAINT `punish_admin_fk` FOREIGN KEY (`admin`) REFERENCES `admin` (`username`),
     CONSTRAINT `punish_driver_fk` FOREIGN KEY (`driver_id`) REFERENCES `driver` (`id`),
     CONSTRAINT `punish_taxi_fk` FOREIGN KEY (`taxi_id`) REFERENCES `taxi` (`id`)
-);
+) COMMENT '奖罚';
+
+DROP TABLE IF EXISTS `passenger`;
+CREATE TABLE `passenger`
+(
+    `id`    int(5)      NOT NULL AUTO_INCREMENT COMMENT '乘客ID',
+    `name`  varchar(20) NOT NULL COMMENT '姓名',
+    `phone` char(11)    NOT NULL COMMENT '手机号',
+    PRIMARY KEY (`id`)
+) COMMENT '乘客';
 
 DROP TABLE IF EXISTS `complain`;
 CREATE TABLE `complain`
 (
-    `id`          char(14)     NOT NULL COMMENT '编号',
-    `driver_id`   char(6) COMMENT '司机编号',
-    `taxi_id`     int(5)       NOT NULL COMMENT '车辆编号',
-    `plate_num`                  char(7)         NOT NULL COMMENT '车牌号码',
-    `phone`       char(11)     NOT NULL COMMENT '投诉人手机号',
-    `reason`      varchar(255) NOT NULL COMMENT '投诉原因',
-    `time`        timestamp    NOT NULL COMMENT '发生时间',
-    `location`    varchar(255) NOT NULL COMMENT '发生地点',
-    `create_time` timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '投诉时间',
-    `state`       int(1)       NOT NULL DEFAULT '0' COMMENT '处理状态',
-    `result`      varchar(255) COMMENT '处理结果',
+    `id`           char(14)     NOT NULL COMMENT '编号',
+    `driver_id`    char(6)      NOT NULL COMMENT '司机编号',
+    `taxi_id`      int(5)       NOT NULL COMMENT '车辆编号',
+    `passenger_id` int(5)       NOT NULL COMMENT '乘客ID',
+    `reason`       varchar(255) NOT NULL COMMENT '投诉原因',
+    `time`         timestamp    NOT NULL COMMENT '发生时间',
+    `location`     varchar(255) NOT NULL COMMENT '发生地点',
+    `create_time`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '投诉时间',
+    `state`        int(1)       NOT NULL DEFAULT '0' COMMENT '处理状态',
+    `result`       varchar(255) COMMENT '处理结果',
     PRIMARY KEY (`id`),
     CONSTRAINT `complain_driver_fk` FOREIGN KEY (`driver_id`) REFERENCES `driver` (`id`),
-    CONSTRAINT `complain_taxi_plate_num_fk` FOREIGN KEY (`plate_num`) REFERENCES `taxi` (`plate_num`),
-    CONSTRAINT `complain_taxi_fk` FOREIGN KEY (`taxi_id`) REFERENCES `taxi` (`id`)
-)
+    CONSTRAINT `complain_taxi_fk` FOREIGN KEY (`taxi_id`) REFERENCES `taxi` (`id`),
+    CONSTRAINT `complain_passenger_fk` FOREIGN KEY (`passenger_id`) REFERENCES `passenger` (`id`)
+) COMMENT '投诉'
 
