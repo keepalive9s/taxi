@@ -3,6 +3,7 @@ package cn.edu.haue.taxi.web;
 import cn.edu.haue.taxi.common.ResponseData;
 import cn.edu.haue.taxi.common.ResponseInfo;
 import cn.edu.haue.taxi.entity.Admin;
+import cn.edu.haue.taxi.entity.Driver;
 import cn.edu.haue.taxi.entity.Rule;
 import cn.edu.haue.taxi.service.RuleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,12 @@ public class RuleController {
     @GetMapping
     public ResponseData<List<Rule>> list(@RequestParam("page") int pageNum, @RequestParam("limit") int pageSize) {
         return ruleService.list(pageNum, pageSize);
+    }
+
+    @GetMapping("driver")
+    public ResponseData<List<Rule>> driver(HttpSession session, @RequestParam("page") int pageNum, @RequestParam("limit") int pageSize) {
+        Driver driver = (Driver) session.getAttribute("currentDriver");
+        return ruleService.listByDriver(driver.getId(), pageNum, pageSize);
     }
 
     @GetMapping("{id}")

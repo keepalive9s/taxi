@@ -1,7 +1,9 @@
 package cn.edu.haue.taxi.entity;
 
 import cn.edu.haue.taxi.util.IDUtil;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -22,11 +24,21 @@ public class Driver {
     private String drivingLicenseNum;
 
     private String drivingLicenseClass;
-
+    //临时字段
     private Integer taxiId;
-
+    //临时字段
+    private String plateNum;
+    //临时字段
+    private Double deposit;
+    //临时字段
+    private Double freeDeposit;
+    //临时字段
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
-
+    //临时字段
+    private String state;
+    //计算字段
     private Integer age;
 
     public String getId() {
@@ -115,5 +127,37 @@ public class Driver {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public String getPlateNum() {
+        return plateNum;
+    }
+
+    public void setPlateNum(String plateNum) {
+        this.plateNum = plateNum;
+    }
+
+    public Double getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(Double deposit) {
+        this.deposit = deposit;
+    }
+
+    public Double getFreeDeposit() {
+        return freeDeposit;
+    }
+
+    public void setFreeDeposit(Double freeDeposit) {
+        this.freeDeposit = freeDeposit;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

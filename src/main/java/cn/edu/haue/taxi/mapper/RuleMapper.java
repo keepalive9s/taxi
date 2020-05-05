@@ -10,6 +10,8 @@ public interface RuleMapper {
 
     Rule selectByPrimaryKey(String id);
 
+    List<Rule> selectByDriverId(String id);
+
     List<Rule> selectAll();
 
     int updateByPrimaryKey(Rule record);

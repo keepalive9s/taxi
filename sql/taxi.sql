@@ -77,7 +77,7 @@ CREATE TABLE `passenger`
 (
     `id`    int(5)      NOT NULL AUTO_INCREMENT COMMENT '乘客ID',
     `name`  varchar(20) NOT NULL COMMENT '姓名',
-    `phone` char(11)    NOT NULL COMMENT '手机号',
+    `phone` char(11)    NOT NULL UNIQUE COMMENT '手机号',
     PRIMARY KEY (`id`)
 ) COMMENT '乘客';
 

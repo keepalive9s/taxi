@@ -30,20 +30,17 @@
                     <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
                         <div class="layui-form-item">
                             <label class="layadmin-user-login-icon layui-icon layui-icon-username"></label>
-                            <input type="text" name="id" lay-verify="required"placeholder="司机ID" class="layui-input">
+                            <input type="text" name="id" lay-verify="required" placeholder="司机ID" class="layui-input" value="217149">
                         </div>
                         <div class="layui-form-item">
                             <label class="layadmin-user-login-icon layui-icon layui-icon-password"></label>
-                            <input type="password" name="password" lay-verify="required" placeholder="密码" class="layui-input">
+                            <input type="password" name="password" lay-verify="required" placeholder="密码" class="layui-input" value="124219">
                         </div>
                         <div class="layui-form-item" style="margin-bottom: 20px;">
                             <input type="checkbox" name="remember" lay-skin="primary" title="记住密码">
                         </div>
                         <div class="layui-form-item">
                             <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="driver-login-submit" id="driver_login_btn">登 入</button>
-                        </div>
-                        <div class="layui-trans layui-form-item layadmin-user-login-other">
-                            <a href="${pageContext.request.contextPath}/register" class="layadmin-user-jump-change layadmin-link">注册司机帐号</a>
                         </div>
                     </div>
                 </div>

@@ -72,31 +72,31 @@
                 </div>
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
-                    <li data-name="home" class="layui-nav-item layui-nav-itemed">
+                    <li data-name="taxi" class="layui-nav-item layui-nav-itemed">
                         <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/taxi/taxi_manage.html" lay-tips="车辆管理" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
                             <cite>车辆管理</cite>
                         </a>
                     </li>
-                    <li data-name="home" class="layui-nav-item">
+                    <li data-name="driver" class="layui-nav-item">
                         <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/driver/driver_manage.html" lay-tips="驾驶员管理" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
                             <cite>驾驶员管理</cite>
                         </a>
                     </li>
-                    <li data-name="home" class="layui-nav-item">
+                    <li data-name="contract" class="layui-nav-item">
                         <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/contract/contract_manage.html" lay-tips="签约管理" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
                             <cite>签约管理</cite>
                         </a>
                     </li>
-                    <li data-name="home" class="layui-nav-item">
+                    <li data-name="rule" class="layui-nav-item">
                         <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/rule/rule_manage.html" lay-tips="奖罚管理" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
                             <cite>奖罚管理</cite>
                         </a>
                     </li>
-                    <li data-name="home" class="layui-nav-item">
+                    <li data-name="complain" class="layui-nav-item">
                         <a href="javascript:;" lay-href="${pageContext.request.contextPath}/static/pages/complain/complain_manage.html" lay-tips="投诉管理" lay-direction="2">
                             <i class="layui-icon layui-icon-home"></i>
                             <cite>投诉管理</cite>

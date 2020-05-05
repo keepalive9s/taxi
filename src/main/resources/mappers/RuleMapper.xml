@@ -30,7 +30,7 @@
       #{taxiId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR}, 
       #{cost,jdbcType=INTEGER}, #{origin,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, 
       #{location,jdbcType=VARCHAR} )
-  </insert>
+    </insert>
     <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Rule">
         update rule
         <set>
@@ -53,9 +53,13 @@
     state, result
     from rule
     where id = #{id,jdbcType=CHAR}
-  </select>
+    </select>
     <select id="selectAll" resultMap="BaseResultMap">
     select rule.id, admin, driver_id, taxi_id, type, reason, cost, origin, time, location, name, plate_num, state, result
     from rule,driver,taxi where rule.driver_id=driver.id and taxi_id=taxi.id
-  </select>
+    </select>
+    <select id="selectByDriverId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select rule.id, admin, driver_id, taxi_id, type, reason, cost, origin, time, location, name, plate_num, state, result
+    from rule,driver,taxi where rule.driver_id=driver.id and taxi_id=taxi.id and driver.id = #{id,jdbcType=CHAR}
+    </select>
 </mapper>

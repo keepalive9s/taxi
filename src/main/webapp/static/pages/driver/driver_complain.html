@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layuiAdmin 网站用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../style/admin.css" media="all">
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <table id="complain-table" lay-filter="complain-table"></table>
+            <script type="text/html" id="complain_action_bar">
+                <a class="layui-btn layui-btn-xs" lay-event="view">查看处理结果</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+<script src="../../layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '../../' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table', 'util'], function () {
+        var $ = layui.$,
+            admin = layui.admin
+            , form = layui.form
+            , localData = layui.data(layui.setter.tableName)
+            , util = layui.util
+            , table = layui.table;
+        table.render({
+            elem: '#complain-table',
+            url: localData.contextPath + '/api/complain/driver',
+            page: true,
+            cols: [[
+                {field: 'id', title: '投诉编号', width: 140, sort: true, fixed: 'left'},
+                {field: 'driverId', title: '司机编号', width: 90},
+                {field: 'driverName', title: '司机姓名', width: 90},
+                {field: 'taxiId', title: '车辆编号', width: 90},
+                {field: 'plateNum', title: '车牌号', width: 100},
+                {field: 'passengerPhone', title: '乘客手机', width: 120},
+                {field: 'passengerName', title: '乘客姓名', width: 90},
+                {
+                    field: 'createTime', title: '投诉时间', templet: function (d) {
+                        return util.toDateString(d.createTime, "yyyy-MM-dd HH:mm");
+                    }
+                },
+                {
+                    title: '状态', width: 80, templet: function (d) {
+                        if (d.state === 0) {
+                            return '待处理';
+                        } else if (d.state === 1) {
+                            return '已处理';
+                        }
+                    }
+                },
+                {title: "操作", width: 150, align: "center", fixed: "right", toolbar: "#complain_action_bar"}
+            ]]
+        });
+        table.on("tool(complain-table)", function (e) {
+            if (e.event === "view") {
+                layer.alert(e.data.result)
+            }
+        });
+    });
+</script>
+</body>
+</html>

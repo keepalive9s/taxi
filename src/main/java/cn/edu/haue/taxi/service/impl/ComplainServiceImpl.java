@@ -5,8 +5,10 @@ import cn.edu.haue.taxi.common.ResponseInfo;
 import cn.edu.haue.taxi.common.ResultCode;
 import cn.edu.haue.taxi.entity.Complain;
 import cn.edu.haue.taxi.entity.Contract;
+import cn.edu.haue.taxi.entity.Passenger;
 import cn.edu.haue.taxi.mapper.ComplainMapper;
 import cn.edu.haue.taxi.mapper.ContractMapper;
+import cn.edu.haue.taxi.mapper.PassengerMapper;
 import cn.edu.haue.taxi.service.ComplainService;
 import cn.edu.haue.taxi.util.UUIDUtil;
 import com.github.pagehelper.PageHelper;
@@ -25,20 +27,29 @@ public class ComplainServiceImpl implements ComplainService {
     @Autowired
     private ContractMapper contractMapper;
 
+    @Autowired
+    private PassengerMapper passengerMapper;
 
     @Override
     public ResponseInfo create(Complain complain) {
+        //乘客是否现有，否则新增
+        Passenger passenger = passengerMapper.selectByPhone(complain.getPassengerPhone());
+        if (passenger == null) {
+            passengerMapper.insert(new Passenger(complain.getPassengerName(), complain.getPassengerPhone()));
+            passenger = passengerMapper.selectByPhone(complain.getPassengerPhone());
+        }
         /*
         确保投诉发生在签约期内
         确保能找到当事司机
          */
         complain.setId(UUIDUtil.Id());
-        if (complain.getDriverId() != null && !complain.getDriverId().equals("")) {
+        if (complain.getDriverId() != null && !complain.getDriverId().equals("")) { //根据司机编号找当事司机
             List<Contract> contracts = contractMapper.selectByDriverId(complain.getDriverId());
             for (Contract item : contracts) {
                 if (item.getEndTime().after(complain.getTime()) && item.getCreateTime().before(complain.getTime())) {
+                    complain.setDriverId(item.getDriverId());
                     complain.setTaxiId(item.getTaxiId());
-                    complain.setPlateNum(item.getPlateNum());
+                    complain.setPassengerId(passenger.getId());
                     int i = complainMapper.insert(complain);
                     if (i == 1) {
                         return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "投诉成功，编号:" + complain.getId() + "，请记下投诉编号以查询结果");
@@ -47,12 +58,13 @@ public class ComplainServiceImpl implements ComplainService {
                     }
                 }
             }
-        } else if (complain.getPlateNum() != null && !complain.getPlateNum().equals("")) {
+        } else if (complain.getPlateNum() != null && !complain.getPlateNum().equals("")) {//根据车牌号找当事司机
             List<Contract> contracts = contractMapper.selectByPlateNum(complain.getPlateNum());
             for (Contract item : contracts) {
                 if (item.getEndTime().after(complain.getTime()) && item.getCreateTime().before(complain.getTime())) {
                     complain.setDriverId(item.getDriverId());
                     complain.setTaxiId(item.getTaxiId());
+                    complain.setPassengerId(passenger.getId());
                     int i = complainMapper.insert(complain);
                     if (i == 1) {
                         return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "投诉成功，编号:" + complain.getId() + "，请记下投诉编号以查询结果");
@@ -61,12 +73,13 @@ public class ComplainServiceImpl implements ComplainService {
                     }
                 }
             }
-        } else if (complain.getTaxiId() != null) {
+        } else if (complain.getTaxiId() != null) {//根据车辆编号找当事司机
             List<Contract> contracts = contractMapper.selectByTaxiId(complain.getTaxiId());
             for (Contract item : contracts) {
                 if (item.getEndTime().after(complain.getTime()) && item.getCreateTime().before(complain.getTime())) {
                     complain.setDriverId(item.getDriverId());
-                    complain.setPlateNum(item.getPlateNum());
+                    complain.setTaxiId(item.getTaxiId());
+                    complain.setPassengerId(passenger.getId());
                     int i = complainMapper.insert(complain);
                     if (i == 1) {
                         return new ResponseInfo(ResultCode.RESULT_CODE_SUCCESS, "投诉成功，编号:" + complain.getId() + "，请记下投诉编号以查询结果");
@@ -116,6 +129,14 @@ public class ComplainServiceImpl implements ComplainService {
     public ResponseData<List<Complain>> list(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Complain> complains = complainMapper.selectAll();
+        PageInfo<Complain> pageInfo = new PageInfo<>(complains);
+        return new ResponseData<>(pageInfo.getTotal(), pageInfo.getList());
+    }
+
+    @Override
+    public ResponseData<List<Complain>> listByDriver(String id, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Complain> complains = complainMapper.selectByDriverId(id);
         PageInfo<Complain> pageInfo = new PageInfo<>(complains);
         return new ResponseData<>(pageInfo.getTotal(), pageInfo.getList());
     }

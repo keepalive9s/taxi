@@ -39,9 +39,9 @@
         where id = #{id,jdbcType=CHAR}
     </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select driver.id, name, gender, password, phone, license_num, driving_license_num, driving_license_class, max(end_time) AS end_time
-    from driver left join contract on driver.id = contract.driver_id
-    where driver.id = #{id,jdbcType=CHAR} group by id
+    select id, name, gender, password, phone, license_num, driving_license_num, driving_license_class
+    from driver
+    where id = #{id,jdbcType=CHAR}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
     select driver.id, name, gender, password, phone, license_num, driving_license_num, driving_license_class, max(end_time) AS end_time

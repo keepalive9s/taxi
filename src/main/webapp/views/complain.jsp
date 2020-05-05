@@ -66,9 +66,15 @@
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label">本人手机号</label>
+                                        <label class="layui-form-label">乘客手机号</label>
                                         <div class="layui-input-inline">
                                             <input type="text" name="phone" lay-verify="required|phone" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">乘客姓名</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="passengerName" lay-verify="required" class="layui-input">
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
@@ -127,6 +133,12 @@
                                                     <input type="text" name="location" class="layui-input" readonly>
                                                 </div>
                                             </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">司机姓名</label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="driverName" class="layui-input" readonly>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="layui-col-md6">
                                             <div class="layui-form-item layui-form-text">
@@ -136,9 +148,15 @@
                                                 </div>
                                             </div>
                                             <div class="layui-form-item">
-                                                <label class="layui-form-label">本人手机号</label>
+                                                <label class="layui-form-label">乘客手机号</label>
                                                 <div class="layui-input-block">
-                                                    <input type="text" name="phone" class="layui-input" readonly>
+                                                    <input type="text" name="passengerPhone" class="layui-input" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">乘客姓名</label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="passengerName" class="layui-input" readonly>
                                                 </div>
                                             </div>
                                             <div class="layui-form-item">

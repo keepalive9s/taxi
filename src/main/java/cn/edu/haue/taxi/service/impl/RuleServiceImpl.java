@@ -71,4 +71,12 @@ public class RuleServiceImpl implements RuleService {
         PageInfo<Rule> pageInfo = new PageInfo<>(rules);
         return new ResponseData<>(pageInfo.getTotal(), pageInfo.getList());
     }
+
+    @Override
+    public ResponseData<List<Rule>> listByDriver(String id, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Rule> rules = ruleMapper.selectByDriverId(id);
+        PageInfo<Rule> pageInfo = new PageInfo<>(rules);
+        return new ResponseData<>(pageInfo.getTotal(), pageInfo.getList());
+    }
 }

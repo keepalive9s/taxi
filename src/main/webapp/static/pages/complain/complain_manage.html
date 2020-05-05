@@ -45,17 +45,18 @@
             cols: [[
                 {field: 'id', title: '投诉编号', width: 140, sort: true, fixed: 'left'},
                 {field: 'driverId', title: '司机编号', width: 90},
-                {field: 'name', title: '司机姓名', width: 90},
+                {field: 'driverName', title: '司机姓名', width: 90},
                 {field: 'taxiId', title: '车辆编号', width: 90},
                 {field: 'plateNum', title: '车牌号', width: 100},
-                {field: 'phone', title: '投诉人手机号', width: 120},
+                {field: 'passengerPhone', title: '乘客手机', width: 120},
+                {field: 'passengerName', title: '乘客姓名', width: 90},
                 {
                     field: 'createTime', title: '投诉时间', templet: function (d) {
                         return util.toDateString(d.createTime, "yyyy-MM-dd HH:mm");
                     }
                 },
                 {
-                    title: '状态', templet: function (d) {
+                    title: '状态', width: 80, templet: function (d) {
                         if (d.state === 0) {
                             return '待处理';
                         } else if (d.state === 1) {

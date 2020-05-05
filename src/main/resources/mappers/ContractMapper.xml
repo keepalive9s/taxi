@@ -45,7 +45,7 @@
     WHERE taxi_id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectByDriverId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    SELECT driver_id,taxi_id,plate_num,end_time,create_time
+    SELECT driver_id,taxi_id,plate_num,end_time,create_time,deposit,end_time
     FROM contract LEFT JOIN taxi ON contract.taxi_id=taxi.id
     WHERE driver_id = #{id,jdbcType=CHAR}
     </select>

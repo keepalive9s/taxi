@@ -18,4 +18,6 @@ public interface RuleService {
 
     ResponseData<List<Rule>> list(int pageNum, int pageSize);
 
+    ResponseData<List<Rule>> listByDriver(String id, int pageNum, int pageSize);
+
 }

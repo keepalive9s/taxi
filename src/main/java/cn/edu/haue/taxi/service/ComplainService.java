@@ -18,4 +18,6 @@ public interface ComplainService {
 
     ResponseData<List<Complain>> list(int pageNum, int pageSize);
 
+    ResponseData<List<Complain>> listByDriver(String id, int pageNum, int pageSize);
+
 }

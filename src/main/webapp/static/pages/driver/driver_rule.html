@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layuiAdmin 网站用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../style/admin.css" media="all">
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <table id="rule-table" lay-filter="rule-table"></table>
+            <script type="text/html" id="rule_action_bar">
+                <a class="layui-btn layui-btn-xs" lay-event="view">查看原因</a>
+            </script>
+        </div>
+    </div>
+</div>
+
+<script src="../../layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '../../' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table', 'util'], function () {
+        var $ = layui.$,
+            admin = layui.admin
+            , form = layui.form
+            , localData = layui.data(layui.setter.tableName)
+            , util = layui.util
+            , table = layui.table;
+        table.render({
+            elem: '#rule-table',
+            url: localData.contextPath + '/api/rule/driver',
+            page: true,
+            cols: [[
+                {field: 'id', width: 140, title: '记录编号', sort: true, fixed: 'left'},
+                {field: 'driverId', title: '驾驶员编号'},
+                {field: 'name', title: '姓名'},
+                {field: 'taxiId', title: '车辆编号'},
+                {field: 'plateNum', title: '车牌'},
+                {
+                    field: 'type', title: '类型', templet: function (d) {
+                        if (d.type === -1) {
+                            return '奖励';
+                        } else if (d.type === 1) {
+                            return '被投诉';
+                        } else if (d.type === 2) {
+                            return '交通违法';
+                        } else if (d.type === 3) {
+                            return '营运违章';
+                        }
+                    }
+                },
+                {field: 'cost', title: '奖罚金额'},
+                {field: 'origin', title: '来源'},
+                {
+                    title: '状态', templet: function (d) {
+                        if (d.state === 0) {
+                            return '待处理';
+                        } else {
+                            return '已处理';
+                        }
+                    }
+                },
+                {title: "操作", width: 150, align: "center", fixed: "right", toolbar: "#rule_action_bar"}
+            ]]
+        });
+        table.on("tool(rule-table)", function (e) {
+            if (e.event === "view") {
+                layer.alert(e.data.reason)
+            }
+        });
+    });
+</script>
+</body>
+</html>

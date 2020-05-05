@@ -3,10 +3,12 @@ package cn.edu.haue.taxi.web;
 import cn.edu.haue.taxi.common.ResponseData;
 import cn.edu.haue.taxi.common.ResponseInfo;
 import cn.edu.haue.taxi.entity.Complain;
+import cn.edu.haue.taxi.entity.Driver;
 import cn.edu.haue.taxi.service.ComplainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -19,6 +21,12 @@ public class ComplainController {
     @GetMapping
     public ResponseData<List<Complain>> list(@RequestParam("page") int pageNum, @RequestParam("limit") int pageSize) {
         return complainService.list(pageNum, pageSize);
+    }
+
+    @GetMapping("driver")
+    public ResponseData<List<Complain>> list(HttpSession session, @RequestParam("page") int pageNum, @RequestParam("limit") int pageSize) {
+        Driver driver = (Driver) session.getAttribute("currentDriver");
+        return complainService.listByDriver(driver.getId(), pageNum, pageSize);
     }
 
     @GetMapping("{id}")

@@ -113,6 +113,14 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    public ResponseData<List<Contract>> listByDriverId(String id, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Contract> contracts = contractMapper.selectByDriverId(id);
+        PageInfo<Contract> pageInfo = new PageInfo<>(contracts);
+        return new ResponseData<>(pageInfo.getTotal(), pageInfo.getList());
+    }
+
+    @Override
     public ResponseData<Contract> findById(String id) {
         Contract contract = contractMapper.selectByPrimaryKey(id);
         if (contract == null) {

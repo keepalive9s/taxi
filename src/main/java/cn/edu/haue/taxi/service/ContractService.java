@@ -18,6 +18,8 @@ public interface ContractService {
 
     ResponseData<List<Contract>> list(int pageNum, int pageSize);
 
+    ResponseData<List<Contract>> listByDriverId(String id, int pageNum, int pageSize);
+
     ResponseData<Contract> findById(String id);
 
     ResponseInfo deleteById(String id);

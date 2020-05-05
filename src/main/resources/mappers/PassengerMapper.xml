@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.haue.taxi.mapper.PassengerMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.haue.taxi.entity.Passenger">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="CHAR" property="phone" />
+  </resultMap>
+  <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Passenger">
+    insert into passenger (name, phone)
+    values (#{name,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR})
+  </insert>
+  <select id="selectByPhone" resultType="cn.edu.haue.taxi.entity.Passenger">
+    select * from passenger where phone = #{phone,jdbcType=CHAR}
+  </select>
+</mapper>

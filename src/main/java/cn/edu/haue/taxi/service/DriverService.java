@@ -17,4 +17,8 @@ public interface DriverService {
     ResponseInfo update(Driver driver);
 
     ResponseData<Driver> findById(String id);
+
+    ResponseData<Driver> findInfoById(String id);
+
+    ResponseData<Driver> login(String id, String password);
 }

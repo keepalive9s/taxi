@@ -14,9 +14,7 @@ public class Complain {
 
     private Integer taxiId;
 
-    private String plateNum;
-
-    private String phone;
+    private Integer passengerId;
 
     private String reason;
 
@@ -32,7 +30,17 @@ public class Complain {
 
     private String result;
 
-    private String name;
+    //临时字段，不持久化
+    private String driverName;
+
+    //临时字段，不持久化
+    private String passengerName;
+
+    //临时字段，不持久化
+    private String passengerPhone;
+
+    //临时字段，不持久化
+    private String plateNum;
 
     public String getId() {
         return id;
@@ -58,20 +66,20 @@ public class Complain {
         this.taxiId = taxiId;
     }
 
-    public String getPlateNum() {
-        return plateNum;
+    public Integer getPassengerId() {
+        return passengerId;
     }
 
-    public void setPlateNum(String plateNum) {
-        this.plateNum = plateNum;
+    public void setPassengerId(Integer passengerId) {
+        this.passengerId = passengerId;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPassengerPhone() {
+        return passengerPhone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPassengerPhone(String passengerPhone) {
+        this.passengerPhone = passengerPhone;
     }
 
     public String getReason() {
@@ -98,6 +106,14 @@ public class Complain {
         this.location = location;
     }
 
+    public String getPlateNum() {
+        return plateNum;
+    }
+
+    public void setPlateNum(String plateNum) {
+        this.plateNum = plateNum;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -122,12 +138,20 @@ public class Complain {
         this.result = result;
     }
 
-    public String getName() {
-        return name;
+    public String getDriverName() {
+        return driverName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+
+    public String getPassengerName() {
+        return passengerName;
+    }
+
+    public void setPassengerName(String passengerName) {
+        this.passengerName = passengerName;
     }
 
     @Override
@@ -136,14 +160,17 @@ public class Complain {
                 "id='" + id + '\'' +
                 ", driverId='" + driverId + '\'' +
                 ", taxiId=" + taxiId +
-                ", plateNum='" + plateNum + '\'' +
-                ", phone='" + phone + '\'' +
+                ", passengerId=" + passengerId +
                 ", reason='" + reason + '\'' +
                 ", time=" + time +
                 ", location='" + location + '\'' +
                 ", createTime=" + createTime +
                 ", state=" + state +
                 ", result='" + result + '\'' +
+                ", driverName='" + driverName + '\'' +
+                ", passengerName='" + passengerName + '\'' +
+                ", passengerPhone='" + passengerPhone + '\'' +
+                ", plateNum='" + plateNum + '\'' +
                 '}';
     }
 }

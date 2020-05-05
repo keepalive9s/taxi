@@ -5,51 +5,96 @@
         <id column="id" jdbcType="CHAR" property="id"/>
         <result column="driver_id" jdbcType="CHAR" property="driverId"/>
         <result column="taxi_id" jdbcType="INTEGER" property="taxiId"/>
-        <result column="plate_num" jdbcType="VARCHAR" property="plateNum"/>
-        <result column="phone" jdbcType="CHAR" property="phone"/>
+        <result column="passenger_id" jdbcType="INTEGER" property="passengerId"/>
+        <result column="passenger_phone" jdbcType="CHAR" property="passengerPhone"/>
         <result column="reason" jdbcType="VARCHAR" property="reason"/>
         <result column="time" jdbcType="TIMESTAMP" property="time"/>
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
         <result column="result" jdbcType="VARCHAR" property="result"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="passenger_name" jdbcType="VARCHAR" property="passengerName"/>
+        <result column="driver_name" jdbcType="VARCHAR" property="driverName"/>
+        <result column="plate_num" jdbcType="VARCHAR" property="plateNum"/>
     </resultMap>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from complain
     where id = #{id,jdbcType=CHAR}
-  </delete>
+    </delete>
     <insert id="insert" parameterType="cn.edu.haue.taxi.entity.Complain">
-    insert into complain (id, driver_id, taxi_id, plate_num, phone, reason, time, location, result)
+    insert into complain (id, driver_id, taxi_id, passenger_id, reason, time, location, result)
     values (#{id,jdbcType=CHAR}, #{driverId,jdbcType=CHAR}, #{taxiId,jdbcType=INTEGER}, 
-      #{plateNum,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR}, #{reason,jdbcType=VARCHAR}, 
+      #{passengerId,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR},
       #{time,jdbcType=TIMESTAMP}, #{location,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR})
-  </insert>
+    </insert>
     <update id="updateByPrimaryKey" parameterType="cn.edu.haue.taxi.entity.Complain">
         update complain
         <set>
-            <if test="driverId!=null">driver_id = #{driverId,jdbcType=CHAR},</if>
-            <if test="taxiId!=null">taxi_id = #{taxiId,jdbcType=INTEGER},</if>
-            <if test="plateNum!=null">plate_num = #{plateNum,jdbcType=VARCHAR},</if>
-            <if test="phone!=null">phone = #{phone,jdbcType=CHAR},</if>
             <if test="reason!=null">reason = #{reason,jdbcType=VARCHAR},</if>
             <if test="time!=null">time = #{time,jdbcType=TIMESTAMP},</if>
             <if test="location!=null">location = #{location,jdbcType=VARCHAR},</if>
-            <if test="createTime!=null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
             <if test="state!=null">state = #{state,jdbcType=INTEGER},</if>
             <if test="result!=null">result = #{result,jdbcType=VARCHAR}</if>
         </set>
         where id = #{id,jdbcType=CHAR}
     </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, driver_id, taxi_id, plate_num, phone, reason, time, location, create_time, 
-    state, result
+    select complain.id,
+        driver_id,
+        driver.name as driver_name,
+        passenger.phone as passenger_phone,
+        passenger.name as passenger_name,
+        taxi_id,
+        plate_num,
+        time,
+        location,
+        reason,
+        create_time,
+        state,
+        result
     from complain
-    where id = #{id,jdbcType=CHAR}
-  </select>
+        left join driver on complain.driver_id = driver.id
+        left join passenger on complain.passenger_id = passenger.id
+        left join taxi on complain.taxi_id = taxi.id
+    where complain.id = #{id,jdbcType=CHAR}
+    </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    select complain.id, driver_id, taxi_id, plate_num, complain.phone, reason, time, location, create_time, name,
-    state, result
-    from complain,driver where complain.driver_id=driver.id
-  </select>
+    select complain.id,
+        driver_id,
+        driver.name as driver_name,
+        passenger.phone as passenger_phone,
+        passenger.name as passenger_name,
+        taxi_id,
+        plate_num,
+        time,
+        location,
+        reason,
+        create_time,
+        state,
+        result
+    from complain
+        left join driver on complain.driver_id = driver.id
+        left join passenger on complain.passenger_id = passenger.id
+        left join taxi on complain.taxi_id = taxi.id
+    </select>
+    <select id="selectByDriverId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select complain.id,
+        driver_id,
+        driver.name as driver_name,
+        passenger.phone as passenger_phone,
+        passenger.name as passenger_name,
+        taxi_id,
+        plate_num,
+        time,
+        location,
+        reason,
+        create_time,
+        state,
+        result
+    from complain
+        left join driver on complain.driver_id = driver.id
+        left join passenger on complain.passenger_id = passenger.id
+        left join taxi on complain.taxi_id = taxi.id
+    WHERE driver_id = #{id,jdbcType=CHAR}
+    </select>
 </mapper>
