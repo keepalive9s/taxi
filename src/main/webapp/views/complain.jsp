@@ -68,7 +68,7 @@
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">乘客手机号</label>
                                         <div class="layui-input-inline">
-                                            <input type="text" name="phone" lay-verify="required|phone" class="layui-input">
+                                            <input type="text" name="passengerPhone" lay-verify="required|phone" class="layui-input">
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
