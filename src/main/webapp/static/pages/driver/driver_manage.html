@@ -55,6 +55,7 @@
                 {
                     title: '状态', templet: function (d) {
                         console.log(d.endTime)
+                        console.log((new Date()).valueOf())
                         if (d.endTime === undefined) {
                             return '未签约';
                         } else if (d.endTime > (new Date()).valueOf()) {

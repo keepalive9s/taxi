@@ -34,7 +34,6 @@ public class Driver {
     private Double freeDeposit;
     //临时字段
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
     //临时字段
     private String state;

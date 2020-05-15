@@ -38,7 +38,6 @@ public class ContractServiceImpl implements ContractService {
         }
         Taxi taxi = taxiMapper.selectByPrimaryKey(contract.getTaxiId());
         Driver driver = driverMapper.selectEndTimeByPrimaryKey(contract.getDriverId());
-        System.out.println(driver.getEndTime());
         if (taxi.getEndTime() != null && taxi.getEndTime().after(new Date())) {
             return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "当前车辆已分配且未到期，无法重复分配");
         }
