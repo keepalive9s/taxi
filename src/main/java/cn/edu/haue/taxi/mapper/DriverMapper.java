@@ -10,6 +10,8 @@ public interface DriverMapper {
 
     Driver selectByPrimaryKey(String id);
 
+    Driver selectEndTimeByPrimaryKey(String id);
+
     List<Driver> selectAll();
 
     int updateByPrimaryKey(Driver record);

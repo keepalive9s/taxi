@@ -47,4 +47,7 @@
     select driver.id, name, gender, password, phone, license_num, driving_license_num, driving_license_class, max(end_time) AS end_time
     from driver left join contract on driver.id = contract.driver_id group by id
     </select>
+    <select id="selectEndTimeByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select max(end_time) as end_time from driver left join contract c on driver.id = c.driver_id where driver.id=#{id,jdbcType=CHAR}
+    </select>
 </mapper>

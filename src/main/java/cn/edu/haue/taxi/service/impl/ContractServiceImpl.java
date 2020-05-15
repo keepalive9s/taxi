@@ -16,7 +16,6 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +37,8 @@ public class ContractServiceImpl implements ContractService {
             return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "签约到期时间不得早于当前时间");
         }
         Taxi taxi = taxiMapper.selectByPrimaryKey(contract.getTaxiId());
-        Driver driver = driverMapper.selectByPrimaryKey(contract.getDriverId());
+        Driver driver = driverMapper.selectEndTimeByPrimaryKey(contract.getDriverId());
+        System.out.println(driver.getEndTime());
         if (taxi.getEndTime() != null && taxi.getEndTime().after(new Date())) {
             return new ResponseInfo(ResultCode.RESULT_CODE_FAIL, "当前车辆已分配且未到期，无法重复分配");
         }

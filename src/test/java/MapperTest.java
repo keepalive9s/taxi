@@ -44,7 +44,8 @@ public class MapperTest {
 
     @Test
     public void t2() {
-
+        Driver driver = driverMapper.selectByPrimaryKey("196970");
+        System.out.println(driver.getEndTime());
     }
 
 }
